@@ -110,60 +110,68 @@ export default function Home() {
     }
   }, [polygon, comparisonRotationalCenters]);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <canvas id="myCanvas" width={800} height={800} ref={canvasRef} style={{ margin: '5px' }}></canvas>
-      <div>
-        {edges.map((edge, index) => (
+    <main className="w-full bg-green-300 items-center mx-auto columns-1 p-6">
+      <div className="items-end py-2" >
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Settings
+        </button>
+      </div>
+      <div className="columns-2">
+        <canvas className="w-full self-center h-full" id="myCanvas" width={800} height={800} ref={canvasRef} ></canvas>
+        <div>
+          {edges.map((edge, index) => (
+            <TextField
+              type="number"
+              key={index}
+              label={`边 ${index}`}
+              value={edge}
+              onChange={(e) => {
+                setEdges(newEdges => newEdges.map((value, i) => i === index ? parseInt(e.target.value) : value));
+              }}
+            />
+          ))}</div>
+        <div>
           <TextField
             type="number"
-            key={index}
-            label={`边 ${index}`}
-            value={edge}
-            onChange={(e) => {
-              setEdges(newEdges => newEdges.map((value, i) => i === index ? parseInt(e.target.value) : value));
-            }}
-          />
-        ))}</div>
-      <div>
-        <TextField
-          type="number"
-          label="角度 ∠0,3"
-          value={firstDegree}
-          onChange={(e) => setFirstDegree(parseInt(e.target.value))} />
+            label="角度 ∠0,3"
+            value={firstDegree}
+            onChange={(e) => setFirstDegree(parseInt(e.target.value))} />
 
-        <TextField
-          type="number"
-          label="边1角度"
-          value={secondVertexDegree}
-          onChange={(e) => setSecondVertexDegree(parseInt(e.target.value))} />
-      </div>
+          <TextField
+            type="number"
+            label="边1角度"
+            value={secondVertexDegree}
+            onChange={(e) => setSecondVertexDegree(parseInt(e.target.value))} />
+        </div>
 
-      <div><TextField
-        label="转动中心"
-        value={rotationalCenterJson}
-        multiline
-        rows={4}
-        InputProps={{
-          readOnly: true,
-        }} />
-        <TextField
-          label="对比转动中心"
-          value={JSON.stringify(comparisonRotationalCenters)}
-          onChange={(e) => setComparisonRotationalCenters(JSON.parse(e.target.value))}
+        <div><TextField
+          label="转动中心"
+          value={rotationalCenterJson}
           multiline
-          rows={4} />
+          rows={4}
+          InputProps={{
+            readOnly: true,
+          }} />
+          <TextField
+            label="对比转动中心"
+            value={JSON.stringify(comparisonRotationalCenters)}
+            onChange={(e) => setComparisonRotationalCenters(JSON.parse(e.target.value))}
+            multiline
+            rows={4} />
 
+        </div>
+        <TextField
+          label="Chamfer Distance"
+          value={new HandsOffDistance(polygon.vertices, comparisonRotationalCenters).getSimilarity()}
+          InputProps={{
+            readOnly: true,
+          }}
+          hidden={comparisonRotationalCenters.length == 0}
+        />
       </div>
-      <TextField
-        label="Chamfer Distance"
-        value={new HandsOffDistance(polygon.vertices, comparisonRotationalCenters).getSimilarity()}
-        InputProps={{
-          readOnly: true,
-        }}
-        hidden={comparisonRotationalCenters.length == 0}
-      />
 
 
-    </main>
+
+    </main >
   );
 }
