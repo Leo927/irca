@@ -112,45 +112,48 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <canvas id="myCanvas" width={800} height={800} ref={canvasRef} style={{ margin: '5px' }}></canvas>
-
-      {edges.map((edge, index) => (
+      <div>
+        {edges.map((edge, index) => (
+          <TextField
+            type="number"
+            key={index}
+            label={`边 ${index}`}
+            value={edge}
+            onChange={(e) => {
+              setEdges(newEdges => newEdges.map((value, i) => i === index ? parseInt(e.target.value) : value));
+            }}
+          />
+        ))}</div>
+      <div>
         <TextField
           type="number"
-          key={index}
-          label={`边 ${index}`}
-          value={edge}
-          onChange={(e) => {
-            setEdges(newEdges => newEdges.map((value, i) => i === index ? parseInt(e.target.value) : value));
-          }}
-        />
-      ))}
-      <TextField
-        type="number"
-        label="角度 ∠0,3"
-        value={firstDegree}
-        onChange={(e) => setFirstDegree(parseInt(e.target.value))} />
+          label="角度 ∠0,3"
+          value={firstDegree}
+          onChange={(e) => setFirstDegree(parseInt(e.target.value))} />
 
-      <TextField
-        type="number"
-        label="边1角度"
-        value={secondVertexDegree}
-        onChange={(e) => setSecondVertexDegree(parseInt(e.target.value))} />
+        <TextField
+          type="number"
+          label="边1角度"
+          value={secondVertexDegree}
+          onChange={(e) => setSecondVertexDegree(parseInt(e.target.value))} />
+      </div>
 
-      <TextField
-        label="Rotational Center"
+      <div><TextField
+        label="转动中心"
         value={rotationalCenterJson}
         multiline
         rows={4}
         InputProps={{
           readOnly: true,
         }} />
-      <TextField
-        label="Comparison Rotational Centers"
-        value={JSON.stringify(comparisonRotationalCenters)}
-        onChange={(e) => setComparisonRotationalCenters(JSON.parse(e.target.value))}
-        multiline
-        rows={4} />
+        <TextField
+          label="对比转动中心"
+          value={JSON.stringify(comparisonRotationalCenters)}
+          onChange={(e) => setComparisonRotationalCenters(JSON.parse(e.target.value))}
+          multiline
+          rows={4} />
 
+      </div>
       <TextField
         label="Chamfer Distance"
         value={new HandsOffDistance(polygon.vertices, comparisonRotationalCenters).getSimilarity()}
