@@ -12,71 +12,12 @@ export class PolygonConstructor {
      * 5. The order going counter clockwise is first vertex, first edge, second vertex, second edge, third vertex, third edge, forth vertex, forth edge, first vertex
      */
 
-    length1: number = 0;
-    length2: number = 0;
-    length3: number = 0;
-    length4: number = 0;
-    edge0Angle: number = 0;
+    data: PolygonConstructionData = new PolygonConstructionData();
     vertices: (Vector2 | null)[] = [null, null, null, null];
-    angleBetweenFirstAndLastEdge: number = 0;
 
-    constructor() { }
-
-    withEdges(lengths: number[]): PolygonConstructor {
-        if (lengths.length !== 4) {
-            throw new Error("Lengths must have 4 elements");
-        }
-        this.length1 = lengths[0];
-        this.length2 = lengths[1];
-        this.length3 = lengths[2];
-        this.length4 = lengths[3];
-        return this;
-    }
-
-    withLength1(length1: number): PolygonConstructor {
-        this.length1 = length1;
-        return this;
-    }
-
-    withLength2(length2: number): PolygonConstructor {
-        this.length2 = length2;
-        return this;
-    }
-
-    withLength3(length3: number): PolygonConstructor {
-        this.length3 = length3;
-        return this;
-    }
-
-    withLength4(length4: number): PolygonConstructor {
-        this.length4 = length4;
-        return this;
-    }
-
-    withFirstVertex(firstVertex: Vector2): PolygonConstructor {
-        if (firstVertex === undefined || firstVertex === null) {
-            throw new Error("First vertex is undefined or null");
-        }
-        this.vertices[0] = firstVertex;
-        return this;
-    }
-
-    withAngleBetweenFirstAndLastEdge(angleBetweenFirstAndLastEdge: number): PolygonConstructor {
-        this.angleBetweenFirstAndLastEdge = angleBetweenFirstAndLastEdge;
-        return this;
-    }
-
-    withAngleBetweenFirstAndLastEdgeInDegree(angleBetweenFirstAndLastEdge: number): PolygonConstructor {
-        this.angleBetweenFirstAndLastEdge = angleBetweenFirstAndLastEdge * Math.PI / 180;
-        return this;
-    }
-
-    withEdge0AngleDegree(edge0Angle: number): PolygonConstructor {
-        if (edge0Angle < 0 || edge0Angle > 360) {
-            throw new Error("Edge 0 angle must be between 0 and 360");
-        }
-        this.edge0Angle = edge0Angle * Math.PI / 180;
-        return this;
+    constructor(data: PolygonConstructionData) {
+        this.data = data;
+        this.vertices[0] = data.firstVertex;
     }
 
     /**
@@ -90,8 +31,8 @@ export class PolygonConstructor {
         let firstVertex = this.vertices[0];
         // calculate the position of the second vertex using first point, first edge length, and the edge0 angle
 
-        let secondVertex = new Vector2(firstVertex.x + this.length1 * Math.cos(this.edge0Angle),
-            firstVertex.y - this.length1 * Math.sin(this.edge0Angle));
+        let secondVertex = new Vector2(firstVertex.x + this.data.edgeLengths[0] * Math.cos(this.data.edge0Angle),
+            firstVertex.y - this.data.edgeLengths[0] * Math.sin(this.data.edge0Angle));
         this.vertices[1] = secondVertex;
     }
 
@@ -101,8 +42,8 @@ export class PolygonConstructor {
         }
 
         let firstVertex = this.vertices[0];
-        let thirdVertex = new Vector2(firstVertex.x + this.length4 * Math.cos(this.angleBetweenFirstAndLastEdge),
-            firstVertex.y - this.length4 * Math.sin(this.angleBetweenFirstAndLastEdge));
+        let thirdVertex = new Vector2(firstVertex.x + this.data.edgeLengths[3] * Math.cos(this.data.angleBetweenFirstAndLastEdge),
+            firstVertex.y - this.data.edgeLengths[3] * Math.sin(this.data.angleBetweenFirstAndLastEdge));
         this.vertices[3] = thirdVertex;
     }
 
@@ -118,7 +59,7 @@ export class PolygonConstructor {
         // We can calculate the position of the third vertex by finding the intersection of two circles
         let secondVertex = this.vertices[1];
         let forthVertex = this.vertices[3];
-        let [intersection1, intersection2] = this.findCirclesIntersection(secondVertex, this.length2, forthVertex, this.length3);
+        let [intersection1, intersection2] = this.findCirclesIntersection(secondVertex, this.data.edgeLengths[1], forthVertex, this.data.edgeLengths[2]);
         let thirdVertex = intersection1.y < intersection2.y ? intersection1 : intersection2;
         this.vertices[2] = thirdVertex;
     }
@@ -172,4 +113,41 @@ export class CircleNotIntersectException extends Error {
     constructor() {
         super("Circles do not intersect");
     }
+}
+
+export class PolygonConstructionData {
+    edgeLengths: number[] = [0, 0, 0, 0];
+    edge0Angle: number = 0;
+    angleBetweenFirstAndLastEdge: number = 0;
+    firstVertex: Vector2 = new Vector2(0, 0);
+
+    withEdgeLengths(lengths: number[]): PolygonConstructionData {
+        if (lengths.length !== 4) {
+            throw new Error("Lengths must have 4 elements");
+        }
+        this.edgeLengths = lengths;
+        return this;
+    }
+
+    withEdge0AngleDegree(edge0Angle: number): PolygonConstructionData {
+        if (edge0Angle < 0 || edge0Angle > 360) {
+            throw new Error("Edge 0 angle must be between 0 and 360");
+        }
+        this.edge0Angle = edge0Angle * Math.PI / 180;
+        return this;
+    }
+
+    withAngleBetweenFirstAndLastEdgeInDegree(angleBetweenFirstAndLastEdge: number): PolygonConstructionData {
+        if (angleBetweenFirstAndLastEdge < 0 || angleBetweenFirstAndLastEdge > 360) {
+            throw new Error("Edge 0 angle must be between 0 and 360");
+        }
+        this.angleBetweenFirstAndLastEdge = angleBetweenFirstAndLastEdge * Math.PI / 180;
+        return this;
+    }
+
+    withFirstVertex(firstVertex: Vector2): PolygonConstructionData {
+        this.firstVertex = firstVertex;
+        return this;
+    }
+
 }
