@@ -6,10 +6,11 @@ import { Vector2 } from '@/app/logics/vector2';
 import { PolygonConstructionData, PolygonConstructor } from '@/app/logics/polygon-constructor';
 import { Polygon } from "@/app/logics/polygon";
 import { Modal, TextField } from "@mui/material";
-import { HandsOffDistance } from "./logics/similarity-calculator";
-import Settings from "./settings/page";
+import { HandsOffDistance } from "@/app/logics/similarity-calculator";
+import Settings from "@/app/settings/page";
 import Box from '@mui/material/Box';
-import PolygonInfoPanel from "./components/PolygonInfo";
+import PolygonInfoPanel from "@/app/components/PolygonInfo";
+import Canvas from "@/app/components/Canvas";
 
 
 export default function Home() {
@@ -36,7 +37,7 @@ export default function Home() {
         </button>
       </div>
       <div className="columns-2">
-
+        <Canvas polygon={polygon} polygonData={polygonData} comparisonRotationalCenters={comparisonRotationalCenters} />
         <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
 
         <div>
