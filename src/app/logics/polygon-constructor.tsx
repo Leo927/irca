@@ -121,6 +121,14 @@ export class PolygonConstructionData {
     angleBetweenFirstAndLastEdge: number = 0;
     firstVertex: Vector2 = new Vector2(0, 0);
 
+    copy() {
+        return new PolygonConstructionData()
+            .withEdgeLengths([...this.edgeLengths])
+            .withEdge0AngleDegree(this.edge0Angle * 180 / Math.PI)
+            .withAngleBetweenFirstAndLastEdgeInDegree(this.angleBetweenFirstAndLastEdge * 180 / Math.PI)
+            .withFirstVertex(this.firstVertex.copy());
+    }
+
     withEdgeLengths(lengths: number[]): PolygonConstructionData {
         if (lengths.length !== 4) {
             throw new Error("Lengths must have 4 elements");

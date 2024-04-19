@@ -30,9 +30,8 @@ export default function PolygonInfoPanel(props: {
                     onChange={(e) => {
                         props.setData(currentData => {
                             let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
-                            let newData = structuredClone(currentData)
-                                .withEdgeLengths(newEdges);
-                            return newData
+                            let newData = currentData.copy().withEdgeLengths(newEdges);
+                            return newData;
                         });
                     }}
                 />
@@ -43,8 +42,8 @@ export default function PolygonInfoPanel(props: {
                 label="角度 ∠0,3"
                 value={props.data.angleBetweenFirstAndLastEdge}
                 onChange={(e) => props.setData(currentData => {
-                    return structuredClone(currentData)
-                        .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value))
+                    return currentData.copy()
+                        .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value));
                 })} />
 
             <TextField
@@ -52,16 +51,12 @@ export default function PolygonInfoPanel(props: {
                 label="边1角度"
                 value={props.data.edge0Angle}
                 onChange={(e) => props.setData(currentData => {
-                    return structuredClone(currentData)
-                        .withEdge0AngleDegree(parseInt(e.target.value))
+                    return currentData.copy()
+                        .withEdge0AngleDegree(parseInt(e.target.value));
                 })} />
             <TextField
                 label="转动中心"
-                value={() => {
-                    if (polygon.vertices.length !== 4) return "";
-                    else
-                        return JSON.stringify(new RotationalCentersAnalyzer(props.data).findRotationalCenters());
-                }
+                value={JSON.stringify(new RotationalCentersAnalyzer(props.data).findRotationalCenters())
                 }
                 multiline
                 rows={4}
