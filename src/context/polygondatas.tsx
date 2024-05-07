@@ -17,21 +17,30 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
                 throw new PayloadValueError(`Invalid payload: ${JSON.stringify(action.payload)}`);
             }
             console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
-            return [...state, HistoricalPolygonData.fromJSON(action.payload).withIndex(state.length)];
+            
+            var newValue = [...state, HistoricalPolygonData.fromJSON(action.payload).withIndex(state.length)];
+            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            return newValue;
         case 'remove':
             console.log(`Removing polygon data: ${JSON.stringify(action.payload)}`);
-            return state.filter((_, index) => index !== action.payload.index);
+            newValue =  state.filter((data) => data.index !== action.payload.index);
+            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            return newValue;
         case 'update':
             console.log(`Updating polygon data: ${JSON.stringify(action.payload)}`);
-            return state.map((data, index) => index === action.payload.index ? action.payload : data);
+            newValue= state.map((data, index) => index === action.payload.index ? action.payload : data);
+            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
         case 'clear':
             console.log('Clearing polygon data');
+            localStorage.setItem('polygonDatas', JSON.stringify([]));
             return [];
         case 'set':
             console.log(`Setting polygon data: ${JSON.stringify(action.payload)}`);
+            localStorage.setItem('polygonDatas', JSON.stringify(action.payload));
             return action.payload;
         default:
             throw new Error('Invalid action type');
+        
     }
 }
 

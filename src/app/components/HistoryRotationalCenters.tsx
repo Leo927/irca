@@ -7,16 +7,8 @@ export default function HistoryRotationalCenters(props: { setCurrentPolygonData:
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
     
-    // use local storage to store polygonDatas
-    useEffect(() => {
-        const storedPolygonDatas = JSON.parse(localStorage.getItem('polygonDatas') || '[]') as HistoricalPolygonData[];
-        dispatchPolygonDatas({ type: 'set', payload: storedPolygonDatas});
-        console.log(`Loading polygonDatas: ${JSON.stringify(storedPolygonDatas)}`);
-    }, []);
 
     useEffect(() => {
-        localStorage.setItem('polygonDatas', JSON.stringify(polygonDatas));
-        console.log(`Saving polygonDatas: ${JSON.stringify(polygonDatas)}`);
     }, [polygonDatas]);
 
     return (

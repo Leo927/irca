@@ -16,6 +16,11 @@ import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, 
 
 
 
+function loadPolygonData() {
+  return JSON.parse(localStorage?.getItem('polygonDatas') || '[]') as HistoricalPolygonData[];
+}
+
+
 export default function Home() {
   const [polygon, setPolygon] = useState<Polygon>(new Polygon([]));
   const [polygonData, setPolygonData] = useState<PolygonConstructionData>(
@@ -27,9 +32,6 @@ export default function Home() {
   const [comparisonRotationalCenters, setComparisonRotationalCenters] = useState<Vector2[]>([]);
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
 
-  function loadPolygonData() {
-    return JSON.parse(localStorage.getItem('polygonDatas') || '[]') as HistoricalPolygonData[]
-  }
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
 
 
@@ -48,7 +50,7 @@ export default function Home() {
             </button>
           </div>
           <div className="columns-2">
-            <Canvas polygon={polygon} polygonData={polygonData} comparisonRotationalCenters={comparisonRotationalCenters} />
+            <Canvas polygon={polygon} polygonData={polygonData} />
             <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
 
             <div>

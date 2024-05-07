@@ -8,7 +8,7 @@ import { Line } from "@/app/logics/line";
 import { RotationalCentersAnalyzer } from "@/app/logics/rotation-center-arc";
 import { RotationCenterFinder } from "@/app/logics/rotation-center-finder";
 import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
-export default function Canvas(props: { polygon: Polygon, comparisonRotationalCenters: Vector2[], polygonData: PolygonConstructionData }) {
+export default function Canvas(props: { polygon: Polygon, polygonData: PolygonConstructionData }) {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -93,15 +93,8 @@ export default function Canvas(props: { polygon: Polygon, comparisonRotationalCe
       ctx.fill();
     }
 
-    // draw the comparison rotational centers
-    props.comparisonRotationalCenters.forEach((center, index) => {
-      ctx.beginPath();
-      ctx.arc(center.x, center.y, 1, 0, 2 * Math.PI);
-      ctx.fillStyle = "green"
-      ctx.fill();
-    });
 
-  }, [props.polygon, props.comparisonRotationalCenters, props.polygonData]);
+  }, [props.polygon, props.polygonData]);
   return (
     <canvas className="w-full self-center h-full" id="myCanvas" width={800} height={800} ref={canvasRef} ></canvas>);
 

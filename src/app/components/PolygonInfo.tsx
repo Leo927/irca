@@ -25,6 +25,7 @@ export default function PolygonInfoPanel(props: {
     function onSaveData() {
         const polygonData = props.data;
         setPolygonDatas({ type: 'add', payload: polygonData });
+        console.log(`save button clicked, data: ${JSON.stringify(polygonData)}`);
     }
 
     return (
