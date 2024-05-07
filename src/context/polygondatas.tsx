@@ -4,23 +4,32 @@ import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
 export const PolygonDatasContext = createContext<HistoricalPolygonData[]>([]);
 export const PolygonDatasDispatchContext = createContext< Dispatch<{
     type: string;
-    payload: HistoricalPolygonData;
+    payload: any;
 }>>
 (undefined as any);
 
 
 
-export function polygonDatasReducer(state: HistoricalPolygonData[], action: { type: string, payload: HistoricalPolygonData; }): HistoricalPolygonData[] {
+export function polygonDatasReducer(state: HistoricalPolygonData[], action: { type: string, payload: any; }): HistoricalPolygonData[] {
     switch (action.type) {
         case 'add':
-            if (action.payload === undefined || action.payload === null || !(action.payload instanceof HistoricalPolygonData)) {
+            if (action.payload === undefined || action.payload === null || !(action.payload instanceof HistoricalPolygonData || action.payload instanceof PolygonConstructionData)) {
                 throw new PayloadValueError(`Invalid payload: ${JSON.stringify(action.payload)}`);
             }
-            return [...state, action.payload.withIndex(state.length)];
+            console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
+            return [...state, HistoricalPolygonData.fromJSON(action.payload).withIndex(state.length)];
         case 'remove':
+            console.log(`Removing polygon data: ${JSON.stringify(action.payload)}`);
             return state.filter((_, index) => index !== action.payload.index);
         case 'update':
+            console.log(`Updating polygon data: ${JSON.stringify(action.payload)}`);
             return state.map((data, index) => index === action.payload.index ? action.payload : data);
+        case 'clear':
+            console.log('Clearing polygon data');
+            return [];
+        case 'set':
+            console.log(`Setting polygon data: ${JSON.stringify(action.payload)}`);
+            return action.payload;
         default:
             throw new Error('Invalid action type');
     }

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import PolygonInfoPanel from "@/app/components/PolygonInfo";
 import Canvas from "@/app/components/Canvas";
 import HistoryRotationalCenters from "./components/HistoryRotationalCenters";
-import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer } from '@/context/polygondatas';
+import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, HistoricalPolygonData } from '@/context/polygondatas';
 
 
 
@@ -26,7 +26,11 @@ export default function Home() {
       .withEdge0AngleDegree(0));
   const [comparisonRotationalCenters, setComparisonRotationalCenters] = useState<Vector2[]>([]);
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
-  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, []);
+
+  function loadPolygonData() {
+    return JSON.parse(localStorage.getItem('polygonDatas') || '[]') as HistoricalPolygonData[]
+  }
+  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
 
 
   useEffect(() => {

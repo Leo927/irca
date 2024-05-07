@@ -1,6 +1,5 @@
 import React, { useEffect, useContext, Dispatch } from 'react';
 import { Container, Button, Card, CardHeader, CardActions, ToggleButton, Switch, FormControlLabel } from '@mui/material';
-import { PolygonConstructionData } from '@/app/logics/polygon-constructor';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
 
@@ -11,7 +10,7 @@ export default function HistoryRotationalCenters(props: { setCurrentPolygonData:
     // use local storage to store polygonDatas
     useEffect(() => {
         const storedPolygonDatas = JSON.parse(localStorage.getItem('polygonDatas') || '[]') as HistoricalPolygonData[];
-        storedPolygonDatas.forEach((data: HistoricalPolygonData, index) => dispatchPolygonDatas({ type: 'add', payload: HistoricalPolygonData.fromJSON(data) }));
+        dispatchPolygonDatas({ type: 'set', payload: storedPolygonDatas});
         console.log(`Loading polygonDatas: ${JSON.stringify(storedPolygonDatas)}`);
     }, []);
 
