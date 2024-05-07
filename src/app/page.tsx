@@ -5,8 +5,7 @@ import { useState } from "react";
 import { Vector2 } from '@/app/logics/vector2';
 import { PolygonConstructionData, PolygonConstructor } from '@/app/logics/polygon-constructor';
 import { Polygon } from "@/app/logics/polygon";
-import { Modal, TextField } from "@mui/material";
-import { HandsOffDistance } from "@/app/logics/similarity-calculator";
+import { Modal, TextField, Button } from "@mui/material";
 import Settings from "@/app/settings/page";
 import Box from '@mui/material/Box';
 import PolygonInfoPanel from "@/app/components/PolygonInfo";
@@ -44,35 +43,21 @@ export default function Home() {
     <PolygonDatasContext.Provider value={polygonDatas}>
       <PolygonDatasDispatchContext.Provider value={dispatchPolygonDatas}>
         <main className="w-full bg-green-300 items-center mx-auto columns-1 p-6">
-          <div className="items-end py-2" >
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setSettingOpen(true)}>
+          <Box className="items-end py-2" >
+            <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setSettingOpen(true)}>
               设置
-            </button>
-          </div>
-          <div className="columns-2">
+            </Button>
+          </Box>
+          <Box className="columns-2">
             <Canvas polygon={polygon} polygonData={polygonData} />
             <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
 
-            <div>
-              <TextField
-                label="对比转动中心"
-                value={JSON.stringify(comparisonRotationalCenters)}
-                onChange={(e) => setComparisonRotationalCenters(JSON.parse(e.target.value))}
-                multiline
-                rows={4} />
+            <Box>
 
               <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} />
 
-            </div>
-            <TextField
-              label="Chamfer Distance"
-              value={new HandsOffDistance(polygon.vertices, comparisonRotationalCenters).getSimilarity()}
-              InputProps={{
-                readOnly: true,
-              }}
-              hidden={comparisonRotationalCenters.length == 0}
-            />
-          </div>
+            </Box>
+          </Box>
 
 
           <Modal

@@ -64,16 +64,6 @@ export default function PolygonInfoPanel(props: {
                         return currentData.copy()
                             .withEdge0AngleDegree(parseInt(e.target.value));
                     })} />
-                <TextField
-                    label="转动中心"
-                    value={JSON.stringify(new RotationalCentersAnalyzer(props.data).findRotationalCenters())
-                    }
-                    multiline
-                    rows={4}
-                    hidden={polygon.vertices.length !== 4}
-                    InputProps={{
-                        readOnly: true,
-                    }} />
                 <Button onClick={() => { onSaveData(); }}>保存</Button>
             </Box>
 
