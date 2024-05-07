@@ -42,13 +42,3 @@ export class Polygon {
 
     get edges(): Line[] { return this.lines };
 }
-
-// Usage example
-const vertices = [
-    new Vector2(0, 0),
-    new Vector2(0, 5),
-    new Vector2(5, 5),
-    new Vector2(5, 0),
-];
-const polygon = new Polygon(vertices);
-console.log(polygon.area); // Output: 25
