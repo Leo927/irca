@@ -44,5 +44,9 @@ export class Vector2 {
     toJson(): any {
         return { x: this.x, y: this.y };
     }
+
+    static fromJson(json: any): Vector2 {
+        return new Vector2(json.x, json.y);
+    }
 }
 

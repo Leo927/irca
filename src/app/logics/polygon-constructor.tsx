@@ -158,4 +158,13 @@ export class PolygonConstructionData {
         return this;
     }
 
+
+    static fromJSON(data: any) : PolygonConstructionData{
+        const polygonData = new PolygonConstructionData();
+        polygonData.edgeLengths = data.edgeLengths;
+        polygonData.edge0Angle = data.edge0Angle;
+        polygonData.angleBetweenFirstAndLastEdge = data.angleBetweenFirstAndLastEdge;
+        polygonData.firstVertex = Vector2.fromJson(data.firstVertex);
+        return polygonData;
+    }
 }
