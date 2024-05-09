@@ -141,7 +141,6 @@ export class PolygonConstructionData {
     }
 
     withAngleBetweenFirstAndLastEdgeInDegree(degree: number): PolygonConstructionData {
-        console.trace(`withAngleBetweenFirstAndLastEdgeInDegree(${degree})`);
         if (degree < 0 || degree > 360) {
             throw new Error("Edge 0 angle must be between 0 and 360");
         }
