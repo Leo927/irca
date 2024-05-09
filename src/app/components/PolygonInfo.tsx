@@ -35,8 +35,6 @@ export default function PolygonInfoPanel(props: {
 
     useEffect(() => {
         if (props.data.edgeLengths.length !== 4) return;
-        const polygon = new PolygonConstructor(props.data)
-            .constructPolygon();
     }, [props.data]);
 
     function onSaveData() {
