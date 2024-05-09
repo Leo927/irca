@@ -1,5 +1,6 @@
 import { createContext, Dispatch } from "react";
 import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
+import { fromJSON } from "postcss";
 
 export const PolygonDatasContext = createContext<HistoricalPolygonData[]>([]);
 export const PolygonDatasDispatchContext = createContext< Dispatch<{
@@ -38,6 +39,11 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             console.log(`Setting polygon data: ${JSON.stringify(action.payload)}`);
             localStorage.setItem('polygonDatas', JSON.stringify(action.payload));
             return action.payload;
+        case 'show':
+            console.log(`Showing polygon data: ${JSON.stringify(action.payload)}`);
+            newValue = state.map((data, index) => index === action.payload.index ? data.withShow(true) : data);
+            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            return newValue;
         default:
             throw new Error('Invalid action type');
         
@@ -63,13 +69,13 @@ export class HistoricalPolygonData extends PolygonConstructionData {
     }
 
     withShow(show: boolean): HistoricalPolygonData {
-        const copy = JSON.parse(JSON.stringify(this)) as HistoricalPolygonData;
+        var copy = HistoricalPolygonData.fromJSON(this);
         copy.show = show;
         return copy;
     }
 
     withIndex(index: number): HistoricalPolygonData {
-        const copy = JSON.parse(JSON.stringify(this)) as HistoricalPolygonData;
+        var copy = HistoricalPolygonData.fromJSON(this);
         copy.index = index;
         return copy;
     }
