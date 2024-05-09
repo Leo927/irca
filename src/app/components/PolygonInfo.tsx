@@ -57,8 +57,11 @@ export default function PolygonInfoPanel(props: {
                 type="number"
                 label="下连杆与前连杆角度"
                 value={props.data.angleBetweenFirstAndLastEdge}
-                onChange={(e) => props.setData(currentData => PolygonConstructionData.fromJSON(currentData)
-                    .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value)))} />
+                onChange={(e) => props.setData(currentData => {
+                    let newData = PolygonConstructionData.fromJSON(currentData);
+                    newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
+                    return newData;
+                })} />
 
             <Button onClick={() => { onSaveData(); }}>保存</Button>
             <FormHelperText>{errorDialogMessage}</FormHelperText>

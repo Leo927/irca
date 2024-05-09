@@ -23,14 +23,22 @@ function loadPolygonData() {
 
 export default function Home() {
   const [polygonData, setPolygonData] = useState<PolygonConstructionData>(
-    new PolygonConstructionData()
-      .withFirstVertex(new Vector2(300, 500))
-      .withEdgeLengths([60, 100, 120, 100])
-      .withAngleBetweenFirstAndLastEdgeInDegree(90)
-      .withEdge0AngleDegree(0));
+    new PolygonConstructionData());
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
+
+  // initialize the polygon data
+  useEffect(() => {
+    setPolygonData(()=>{
+      let data = new PolygonConstructionData();
+      data.edgeLengths = [60, 100, 120, 100];
+      data.edge0Angle = 0;
+      data.angleBetweenFirstAndLastEdge = 80;
+      data.firstVertex = new Vector2(300, 500);
+      return data;
+    });
+  }, []);
 
   useEffect(() => {
     setDrawingDatas([...polygonDatas.filter((data) => data.show)]);
