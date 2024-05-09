@@ -11,6 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { translateEdgeName } from "@/app/logics/helpers";
 
 
 export default function PolygonInfoPanel(props: {
@@ -59,7 +60,7 @@ export default function PolygonInfoPanel(props: {
                     <TextField
                         type="number"
                         key={index}
-                        label={`边 ${index}`}
+                        label={`${translateEdgeName(index)}`}
                         value={edge}
                         onChange={(e) => {
                             props.setData(currentData => {
