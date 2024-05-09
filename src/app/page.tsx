@@ -22,14 +22,12 @@ function loadPolygonData() {
 
 
 export default function Home() {
-  const [polygon, setPolygon] = useState<Polygon>(new Polygon([]));
   const [polygonData, setPolygonData] = useState<PolygonConstructionData>(
     new PolygonConstructionData()
       .withFirstVertex(new Vector2(300, 500))
       .withEdgeLengths([60, 100, 120, 100])
       .withAngleBetweenFirstAndLastEdgeInDegree(90)
       .withEdge0AngleDegree(0));
-  const [comparisonRotationalCenters, setComparisonRotationalCenters] = useState<Vector2[]>([]);
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
@@ -37,12 +35,6 @@ export default function Home() {
   useEffect(() => {
     setDrawingDatas([...polygonDatas.filter((data) => data.show)]);
   }, [polygonDatas]);
-
-
-  useEffect(() => {
-    const polygonConstructor = new PolygonConstructor(polygonData);
-    setPolygon((c) => polygonConstructor.constructPolygon());
-  }, [polygonData]);
 
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>
@@ -59,7 +51,7 @@ export default function Home() {
 
             <Box>
 
-              <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} />
+              {/* <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} /> */}
 
             </Box>
           </Box>
