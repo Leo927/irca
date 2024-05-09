@@ -1,13 +1,11 @@
-import { Polygon } from "@/app/logics/polygon";
 import TextField from "@mui/material/TextField";
-import { SetStateAction, useEffect, useState, useContext } from "react";
+import { SetStateAction, useState, useContext } from "react";
 
 import { Dispatch } from "react";
-import { PolygonConstructionData, PolygonConstructor } from "../logics/polygon-constructor";
+import { PolygonConstructionData } from "../logics/polygon-constructor";
 import { Button } from "@mui/material";
 import { PolygonDatasDispatchContext } from "@/context/polygondatas";
 import { translateEdgeName } from "@/app/logics/helpers";
-import { error } from "console";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 
