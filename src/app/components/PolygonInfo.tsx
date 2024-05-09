@@ -47,12 +47,9 @@ export default function PolygonInfoPanel(props: {
                     value={edge}
                     onChange={(e) => {
                         props.setData(currentData => {
-                            return errorSafeSetData(() => {
-                                let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
-                                let newData = currentData.copy().withEdgeLengths(newEdges);
-                                return newData;
-                            }, currentData);
-                        });
+                            let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
+                            let newData = PolygonConstructionData.fromJSON(currentData).withEdgeLengths(newEdges);
+                            return newData;});
                     }}
                 />
             ))}
@@ -60,10 +57,8 @@ export default function PolygonInfoPanel(props: {
                 type="number"
                 label="下连杆与前连杆角度"
                 value={props.data.angleBetweenFirstAndLastEdge}
-                onChange={(e) => props.setData(currentData => {
-                    return errorSafeSetData(() => currentData.copy()
-                        .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value)), currentData);
-                })} />
+                onChange={(e) => props.setData(currentData => PolygonConstructionData.fromJSON(currentData)
+                    .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value)))} />
 
             <Button onClick={() => { onSaveData(); }}>保存</Button>
             <FormHelperText>{errorDialogMessage}</FormHelperText>
