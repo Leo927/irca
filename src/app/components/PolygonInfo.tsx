@@ -48,7 +48,8 @@ export default function PolygonInfoPanel(props: {
                     onChange={(e) => {
                         props.setData(currentData => {
                             let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
-                            let newData = PolygonConstructionData.fromJSON(currentData).withEdgeLengths(newEdges);
+                            let newData = PolygonConstructionData.fromJSON(currentData)
+                            newData.edgeLengths = newEdges;
                             return newData;});
                     }}
                 />

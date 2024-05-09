@@ -122,39 +122,6 @@ export class PolygonConstructionData {
     firstVertex: Vector2 = new Vector2(0, 0);
 
 
-    withEdgeLengths(lengths: number[]): PolygonConstructionData {
-        if (lengths.length !== 4) {
-            throw new Error("Lengths must have 4 elements");
-        }
-        let copy = PolygonConstructionData.fromJSON(this);
-        copy.edgeLengths = lengths;
-        return copy;
-    }
-
-    withEdge0AngleDegree(edge0Angle: number): PolygonConstructionData {
-        if (edge0Angle < 0 || edge0Angle > 360) {
-            throw new Error("Edge 0 angle must be between 0 and 360");
-        }
-        let copy = PolygonConstructionData.fromJSON(this);
-        copy.edge0Angle = edge0Angle * Math.PI / 180;
-        return copy;
-    }
-
-    withAngleBetweenFirstAndLastEdgeInDegree(degree: number): PolygonConstructionData {
-        if (degree < 0 || degree > 360) {
-            throw new Error("Edge 0 angle must be between 0 and 360");
-        }
-        let copy = PolygonConstructionData.fromJSON(this);
-        copy.angleBetweenFirstAndLastEdge = degree * Math.PI / 180;
-        return copy;
-    }
-
-    withFirstVertex(firstVertex: Vector2): PolygonConstructionData {
-        let copy = PolygonConstructionData.fromJSON(this);
-        copy.firstVertex = firstVertex;
-        return copy;
-    }
-
 
     static fromJSON(data: any) : PolygonConstructionData{
         const polygonData = new PolygonConstructionData();
