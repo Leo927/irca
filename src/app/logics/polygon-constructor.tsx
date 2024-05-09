@@ -122,11 +122,12 @@ export class PolygonConstructionData {
     firstVertex: Vector2 = new Vector2(0, 0);
 
     copy() {
-        return new PolygonConstructionData()
-            .withEdgeLengths([...this.edgeLengths])
-            .withEdge0AngleDegree(this.edge0Angle * 180 / Math.PI)
-            .withAngleBetweenFirstAndLastEdgeInDegree(this.angleBetweenFirstAndLastEdge * 180 / Math.PI)
-            .withFirstVertex(this.firstVertex.copy());
+        var value = new PolygonConstructionData();
+        value.edgeLengths = [...this.edgeLengths];
+        value.edge0Angle = this.edge0Angle;
+        value.angleBetweenFirstAndLastEdge = this.angleBetweenFirstAndLastEdge;
+        value.firstVertex = this.firstVertex.copy();
+        return value;
     }
 
     withEdgeLengths(lengths: number[]): PolygonConstructionData {
@@ -145,11 +146,12 @@ export class PolygonConstructionData {
         return this;
     }
 
-    withAngleBetweenFirstAndLastEdgeInDegree(angleBetweenFirstAndLastEdge: number): PolygonConstructionData {
-        if (angleBetweenFirstAndLastEdge < 0 || angleBetweenFirstAndLastEdge > 360) {
+    withAngleBetweenFirstAndLastEdgeInDegree(degree: number): PolygonConstructionData {
+        console.trace(`withAngleBetweenFirstAndLastEdgeInDegree(${degree})`);
+        if (degree < 0 || degree > 360) {
             throw new Error("Edge 0 angle must be between 0 and 360");
         }
-        this.angleBetweenFirstAndLastEdge = angleBetweenFirstAndLastEdge * Math.PI / 180;
+        this.angleBetweenFirstAndLastEdge = degree * Math.PI / 180;
         return this;
     }
 
