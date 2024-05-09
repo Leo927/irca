@@ -36,10 +36,6 @@ export default function Home() {
 
   useEffect(() => {
     setDrawingDatas([...polygonDatas.filter((data) => data.show)]);
-    
-    drawingDatas.forEach((data)=>{
-      console.log(data instanceof HistoricalPolygonData);
-    })
   }, [polygonDatas]);
 
 
