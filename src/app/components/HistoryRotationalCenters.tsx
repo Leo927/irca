@@ -3,7 +3,7 @@ import { Container, Button, Card, CardHeader, CardActions, ToggleButton, Switch,
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
 
-export default function HistoryRotationalCenters(props: { setCurrentPolygonData: Dispatch<HistoricalPolygonData> }) {
+export default function HistoryRotationalCenters(props: { setCurrentPolygonData: Dispatch<HistoricalPolygonData>; }) {
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 
@@ -15,7 +15,7 @@ export default function HistoryRotationalCenters(props: { setCurrentPolygonData:
                     <CardActions>
                         <Button onClick={() => dispatchPolygonDatas({ type: 'remove', payload: polygonData })}>删除</Button>
                         <Button onClick={() => props.setCurrentPolygonData(polygonData)}>使用</Button>
-                        <FormControlLabel control={<Switch onChange={(show) => props.setCurrentPolygonData}></Switch>}
+                        <FormControlLabel control={<Switch onChange={(show) => dispatchPolygonDatas({ type: 'show', payload: polygonData })}></Switch>}
                             label='显示'></FormControlLabel>
                     </CardActions>
                 </Card>
