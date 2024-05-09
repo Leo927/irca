@@ -121,14 +121,6 @@ export class PolygonConstructionData {
     angleBetweenFirstAndLastEdge: number = 0;
     firstVertex: Vector2 = new Vector2(0, 0);
 
-    copy() {
-        var value = new PolygonConstructionData();
-        value.edgeLengths = [...this.edgeLengths];
-        value.edge0Angle = this.edge0Angle;
-        value.angleBetweenFirstAndLastEdge = this.angleBetweenFirstAndLastEdge;
-        value.firstVertex = this.firstVertex.copy();
-        return value;
-    }
 
     withEdgeLengths(lengths: number[]): PolygonConstructionData {
         if (lengths.length !== 4) {
