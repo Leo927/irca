@@ -18,7 +18,6 @@ export default function PolygonInfoPanel(props: {
 }) {
     const setPolygonDatas = useContext(PolygonDatasDispatchContext);
     const [error, setError] = useState(false);
-    const [polygon, setPolygon] = useState<Polygon>(new Polygon([]));
     const [errorDialogMessage, setErrorDialogMessage] = useState('' as string);
 
     const errorSafeSetData = (newDataSupplier: () => any, fallback: any) => {
@@ -38,7 +37,6 @@ export default function PolygonInfoPanel(props: {
         if (props.data.edgeLengths.length !== 4) return;
         const polygon = new PolygonConstructor(props.data)
             .constructPolygon();
-        setPolygon(polygon);
     }, [props.data]);
 
     function onSaveData() {
