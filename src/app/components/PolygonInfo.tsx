@@ -33,10 +33,6 @@ export default function PolygonInfoPanel(props: {
         }
     };
 
-    useEffect(() => {
-        if (props.data.edgeLengths.length !== 4) return;
-    }, [props.data]);
-
     function onSaveData() {
         const polygonData = props.data;
         setPolygonDatas({ type: 'add', payload: polygonData });
