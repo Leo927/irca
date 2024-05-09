@@ -16,7 +16,8 @@ import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, 
 
 
 function loadPolygonData() {
-  return JSON.parse(localStorage?.getItem('polygonDatas') || '[]') as HistoricalPolygonData[];
+  const value = (JSON.parse(localStorage?.getItem('polygonDatas') || '[]') as Object[]).map(HistoricalPolygonData.fromJSON);
+  return value;
 }
 
 
@@ -30,8 +31,16 @@ export default function Home() {
       .withEdge0AngleDegree(0));
   const [comparisonRotationalCenters, setComparisonRotationalCenters] = useState<Vector2[]>([]);
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
-
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
+  const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
+
+  useEffect(() => {
+    setDrawingDatas([...polygonDatas.filter((data) => data.show)]);
+    
+    drawingDatas.forEach((data)=>{
+      console.log(data instanceof HistoricalPolygonData);
+    })
+  }, [polygonDatas]);
 
 
   useEffect(() => {
@@ -49,7 +58,7 @@ export default function Home() {
             </Button>
           </Box>
           <Box className="columns-2">
-            <Canvas polygon={polygon} polygonData={polygonData} />
+            <Canvas polygonDatas={drawingDatas} />
             <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
 
             <Box>

@@ -6,10 +6,6 @@ import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/poly
 export default function HistoryRotationalCenters(props: { setCurrentPolygonData: Dispatch<HistoricalPolygonData> }) {
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
-    
-
-    useEffect(() => {
-    }, [polygonDatas]);
 
     return (
         <Container className='flex '>
