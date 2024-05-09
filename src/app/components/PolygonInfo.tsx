@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { translateEdgeName } from "@/app/logics/helpers";
+import { error } from "console";
 
 
 export default function PolygonInfoPanel(props: {
@@ -23,15 +24,15 @@ export default function PolygonInfoPanel(props: {
     const [errorDialogOpen, setErrorDialogOpen] = useState(false);
     const [errorDialogMessage, setErrorDialogMessage] = useState('' as string);
 
-    const errorSafeSetData = (newDataSupplier: ()=>any, fallback: any) => {
+    const errorSafeSetData = (newDataSupplier: () => any, fallback: any) => {
         try {
             return newDataSupplier();
-        } catch (e:any) {
+        } catch (e: any) {
             setErrorDialogMessage(e.message);
             handleClickOpen();
             return fallback;
         }
-    }
+    };
 
     const handleClickOpen = () => {
         setErrorDialogOpen(true);
@@ -64,31 +65,24 @@ export default function PolygonInfoPanel(props: {
                         value={edge}
                         onChange={(e) => {
                             props.setData(currentData => {
-                                let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
-                                let newData = currentData.copy().withEdgeLengths(newEdges);
-                                return newData;
+                                return errorSafeSetData(() => {
+                                    let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
+                                    let newData = currentData.copy().withEdgeLengths(newEdges);
+                                    return newData;
+                                }, currentData);
                             });
                         }}
                     />
-                ))}</Box>
-            <Box>
+                ))}
                 <TextField
                     type="number"
-                    label="角度 ∠0,3"
+                    label="下连杆与前连杆角度"
                     value={props.data.angleBetweenFirstAndLastEdge}
                     onChange={(e) => props.setData(currentData => {
-                            return errorSafeSetData(()=>currentData.copy()
-                                .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value)), currentData);
+                        return errorSafeSetData(() => currentData.copy()
+                            .withAngleBetweenFirstAndLastEdgeInDegree(parseInt(e.target.value)), currentData);
                     })} />
 
-                <TextField
-                    type="number"
-                    label="边1角度"
-                    value={props.data.edge0Angle}
-                    onChange={(e) => props.setData(currentData => {
-                        return errorSafeSetData(()=>currentData.copy()
-                        .withEdge0AngleDegree(parseInt(e.target.value)), currentData);
-                    })} />
                 <Button onClick={() => { onSaveData(); }}>保存</Button>
             </Box>
 
