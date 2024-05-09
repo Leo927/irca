@@ -30,7 +30,7 @@ export default function Home() {
 
   // initialize the polygon data
   useEffect(() => {
-    setPolygonData(()=>{
+    setPolygonData(() => {
       let data = new PolygonConstructionData();
       data.edgeLengths = [60, 100, 120, 100];
       data.edge0Angle = 0;
@@ -59,7 +59,7 @@ export default function Home() {
 
             <Box>
 
-              {/* <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} /> */}
+              <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} />
 
             </Box>
           </Box>
