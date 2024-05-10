@@ -120,6 +120,7 @@ export class PolygonConstructionData {
     edge0Angle: number = 0;
     angleBetweenFirstAndLastEdge: number = 0;
     firstVertex: Vector2 = new Vector2(0, 0);
+    color: string = "black";
 
 
 
@@ -138,6 +139,16 @@ export class PolygonConstructionData {
         data.edge0Angle = this.edge0Angle;
         data.angleBetweenFirstAndLastEdge = angle;
         data.firstVertex = this.firstVertex;
+        return data;
+    }
+    
+    withColor(color: string): PolygonConstructionData {
+        const data = new PolygonConstructionData();
+        data.edgeLengths = this.edgeLengths;
+        data.edge0Angle = this.edge0Angle;
+        data.angleBetweenFirstAndLastEdge = this.angleBetweenFirstAndLastEdge;
+        data.firstVertex = this.firstVertex;
+        data.color = color;
         return data;
     }
 }
