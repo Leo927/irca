@@ -9,10 +9,15 @@ export default class PolygonDrawer {
     canvas: fabric.Canvas;
     constructionData: HistoricalPolygonData;
     polygon: Polygon;
+    group: fabric.Group;
     constructor(canvas: fabric.Canvas, constructionData: HistoricalPolygonData) {
+        if (constructionData instanceof HistoricalPolygonData === false) {
+            throw new Error("Invalid construction data");
+        }
         this.canvas = canvas;
         this.constructionData = constructionData;
         this.polygon = new PolygonConstructor(constructionData).constructPolygon();
+        this.group = new fabric.Group();
     }
 
     drawPolygon() {
@@ -28,73 +33,65 @@ export default class PolygonDrawer {
         //     // draw the index of the line
         //     this.drawLineLabel(line);
         // });
-
+        this.group = new fabric.Group([], {
+            hasControls: false,
+            hoverCursor: "pointer"
+        });
         this.drawPolygonShape();
-
-        // // draw the rotational centers
-        // this.drawRotationalCenters();
-
-        // // draw the current rotational center
-        // this.drawCurrentRotationalCenter();
+        this.drawRotationalCenters();
+        this.drawCurrentRotationalCenter();
+        this.canvas.add(this.group);
 
     }
 
     private drawPolygonShape() {
-        var poly = new fabric.Polyline(this.polygon.vertices, {
+        var poly = new fabric.Polyline([...this.polygon.vertices, this.polygon.vertices[0]], {
             stroke: 'red',
+            fill: '',
+            strokeWidth: 2,
+            selectable: true,
+            hasControls: false,
+            hasBorders: true,
+            hoverCursor: "pointer"
         });
-        this.canvas.add(poly);
+        this.group.addWithUpdate(poly);
     }
 
     private drawCurrentRotationalCenter() {
         if (this.polygon.vertices.length === 4) {
-            const rotationalCenter = new RotationCenterFinder(this.polygon).getRotationalCenter();
-            this.canvas.beginPath();
-            this.canvas.arc(rotationalCenter.x, rotationalCenter.y, 5, 0, 2 * Math.PI);
-            this.canvas.fillStyle = "blue";
-            this.canvas.fill();
+            try {
+                const rotationalCenter = new RotationCenterFinder(this.polygon).getRotationalCenter();
+                let circle = new fabric.Circle({
+                    stroke: 'red',
+                    radius: 5,
+                    fill: '',
+                    left: rotationalCenter.x - 2.5,
+                    top: rotationalCenter.y + 2.5,
+                    hasControls: false,
+                    hoverCursor: "pointer"
+                });
+                this.group.addWithUpdate(circle);
+            } catch (e) {
+                console.error("Error", e);
+            }
         }
     }
 
     private drawRotationalCenters() {
         if (this.polygon.vertices.length === 4) {
             let centers = new RotationalCentersAnalyzer(this.constructionData).findRotationalCenters();
-            centers.forEach((center, index) => {
-                this.canvas.beginPath();
-                this.canvas.arc(center.x, center.y, 1, 0, 2 * Math.PI);
-                this.canvas.fillStyle = "red";
-                this.canvas.fill();
+            console.log("centers", centers);
+            let line = new fabric.Polyline(centers, {
+                transparentCorners: true,
+                stroke: 'red',
+                fill: '',
+                selectable: true,
+                hasControls: false,
+                hasBorders: true,
+                hoverCursor: "pointer"
+                
             });
+            this.group.addWithUpdate(line);
         }
     }
-
-    drawLine(line: Line) {
-        this.canvas.beginPath();
-        this.canvas.lineWidth = 2;
-        this.canvas.moveTo(line.start.x, line.start.y);
-        this.canvas.lineTo(line.end.x, line.end.y);
-        this.canvas.strokeStyle = 'black';
-        this.canvas.stroke();
-    }
-
-    drawLineLabel(line: Line) {
-        this.canvas.beginPath();
-        const middleX = (line.start.x + line.end.x) / 2;
-        const middleY = (line.start.y + line.end.y) / 2;
-        const dx = line.end.x - line.start.x;
-        const dy = line.end.y - line.start.y;
-        const offsetX = -dy;
-        const offsetY = dx;
-        const offsetMagnitude = 10; // adjust the offset magnitude as needed
-        const normalizedOffsetX = offsetX / Math.sqrt(offsetX * offsetX + offsetY * offsetY);
-        const normalizedOffsetY = offsetY / Math.sqrt(offsetX * offsetX + offsetY * offsetY);
-        const offsetPointX = middleX + normalizedOffsetX * offsetMagnitude;
-        const offsetPointY = middleY + normalizedOffsetY * offsetMagnitude;
-        this.canvas.font = '15px Arial';
-        this.canvas.fillStyle = 'black';
-        this.canvas.textAlign = 'center';
-        this.canvas.textBaseline = 'middle';
-        this.canvas.fillText(`${line.getLength()}`, offsetPointX, offsetPointY);
-    }
-
 }

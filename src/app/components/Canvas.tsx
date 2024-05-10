@@ -24,11 +24,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
       height: 800,
       width: 800,
     });
-    fabric.Object.prototype.transparentCorners = false;
-    fabric.Object.prototype.cornerColor = "#2BEBC8";
-    fabric.Object.prototype.cornerStyle = "rect";
-    fabric.Object.prototype.cornerStrokeColor = "#2BEBC8";
-    fabric.Object.prototype.cornerSize = 6;
+    fabric.Object.prototype.transparentCorners = true;
     ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);
     return () => {

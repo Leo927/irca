@@ -42,8 +42,8 @@ export class PolygonConstructor {
         }
 
         let firstVertex = this.vertices[0];
-        let thirdVertex = new Vector2(firstVertex.x + this.data.edgeLengths[3] * Math.cos(this.data.angleBetweenFirstAndLastEdge),
-            firstVertex.y + this.data.edgeLengths[3] * Math.sin(this.data.angleBetweenFirstAndLastEdge));
+        let thirdVertex = new Vector2(firstVertex.x + this.data.edgeLengths[3] * Math.cos(toRadians(this.data.angleBetweenFirstAndLastEdge)),
+            firstVertex.y - this.data.edgeLengths[3] * Math.sin(toRadians(this.data.angleBetweenFirstAndLastEdge)));
         this.vertices[3] = thirdVertex;
     }
 
@@ -131,4 +131,17 @@ export class PolygonConstructionData {
         polygonData.firstVertex = Vector2.fromJson(data.firstVertex);
         return polygonData;
     }
+
+    withAngleBetweenFirstAndLastEdgeInDegree(angle: number): PolygonConstructionData {
+        const data = new PolygonConstructionData();
+        data.edgeLengths = this.edgeLengths;
+        data.edge0Angle = this.edge0Angle;
+        data.angleBetweenFirstAndLastEdge = angle;
+        data.firstVertex = this.firstVertex;
+        return data;
+    }
+}
+
+function toRadians(angle: number): number {
+    return angle * Math.PI / 180;
 }
