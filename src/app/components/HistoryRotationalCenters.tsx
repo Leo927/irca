@@ -2,7 +2,13 @@ import React, { useEffect, useContext, Dispatch } from 'react';
 import { Container, Button, Card, CardHeader, CardActions, ToggleButton, Switch, FormControlLabel } from '@mui/material';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
-const COLORS = [{ name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+
+
+const COLORS = [{ name: "黑色", value: "black" }, { name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
 
 
 export default function HistoryRotationalCenters(props: { setCurrentPolygonData: Dispatch<HistoricalPolygonData>; }) {
@@ -21,11 +27,32 @@ export default function HistoryRotationalCenters(props: { setCurrentPolygonData:
                             props.setCurrentPolygonData(polygonData);
                         }}>使用</Button>
 
+                        <FormControl sx={{ m: 1, minWidth: 80 }}>
+                            <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-autowidth-label"
+                                id="demo-simple-select-autowidth"
+                                value={polygonData.color}
+                                onChange={(event: SelectChangeEvent) => {
+                                    polygonData.color = event.target.value;
+                                    dispatchPolygonDatas({ type: 'update', payload: polygonData });
+                                }}
+                                autoWidth
+                                label="Age"
+                            >
+                                {
+                                    COLORS.map((color, index) => (
+                                        <MenuItem key={index} value={color.value}>{color.name}</MenuItem>
+                                    ))
+                                }
+                            </Select>
+                        </FormControl>
+
                         <FormControlLabel control={
                             <Switch onChange={(show) => {
-                                if(show.target.checked){
+                                if (show.target.checked) {
                                     dispatchPolygonDatas({ type: 'show', payload: polygonData });
-                                }   else{
+                                } else {
                                     dispatchPolygonDatas({ type: 'hide', payload: polygonData });
                                 }
                             }}

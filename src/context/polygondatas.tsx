@@ -10,7 +10,10 @@ export const PolygonDatasDispatchContext = createContext<Dispatch<{
 }>>
     (undefined as any);
 
-
+function savePolygonDatas(polygonDatas: HistoricalPolygonData[]) {
+    console.debug('Saving polygon datas', polygonDatas);
+    localStorage.setItem('polygonDatas', JSON.stringify(polygonDatas));
+}
 
 export function polygonDatasReducer(state: HistoricalPolygonData[], action: { type: string, payload: any; }): HistoricalPolygonData[] {
     switch (action.type) {
@@ -21,34 +24,35 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
 
             var newValue = [...state, HistoricalPolygonData.fromJSON(action.payload).withIndex(state.length)];
-            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            savePolygonDatas(newValue);
             return newValue;
         case 'remove':
             console.log(`Removing polygon data: ${JSON.stringify(action.payload)}`);
             newValue = state.filter((data) => data.index !== action.payload.index);
-            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            savePolygonDatas(newValue);
             return newValue;
         case 'update':
             console.log(`Updating polygon data: ${JSON.stringify(action.payload)}`);
             newValue = state.map((data, index) => index === action.payload.index ? action.payload : data);
-            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            savePolygonDatas(newValue);
+            return newValue;
         case 'clear':
             console.log('Clearing polygon data');
-            localStorage.setItem('polygonDatas', JSON.stringify([]));
+            savePolygonDatas([]);
             return [];
         case 'set':
             console.log(`Setting polygon data: ${JSON.stringify(action.payload)}`);
-            localStorage.setItem('polygonDatas', JSON.stringify(action.payload));
+            savePolygonDatas(action.payload);
             return action.payload;
         case 'show':
             console.log(`Showing polygon data: ${JSON.stringify(action.payload)}`);
             newValue = state.map((data, index) => index === action.payload.index ? data.withShow(true) : data);
-            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            savePolygonDatas(newValue);
             return newValue;
         case 'hide':
             console.log(`Hiding polygon data: ${JSON.stringify(action.payload)}`);
             newValue = state.map((data, index) => index === action.payload.index ? data.withShow(false) : data);
-            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            savePolygonDatas(newValue);
             return newValue;
         default:
             throw new Error('Invalid action type');
@@ -60,12 +64,14 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
 export class HistoricalPolygonData extends PolygonConstructionData {
     index: number;
     show: boolean;
+    color: string;
 
 
     constructor() {
         super();
         this.index = 0;
         this.show = false;
+        this.color = 'black';
     }
 
     static fromJSON(data: any): HistoricalPolygonData {
@@ -79,6 +85,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         historicalPolygonData.firstVertex = new Vector2(data.firstVertex.x, data.firstVertex.y);
         historicalPolygonData.index = data.index;
         historicalPolygonData.show = data.show;
+        historicalPolygonData.color = data.color;
         return historicalPolygonData;
     }
 
@@ -91,6 +98,12 @@ export class HistoricalPolygonData extends PolygonConstructionData {
     withIndex(index: number): HistoricalPolygonData {
         var copy = HistoricalPolygonData.fromJSON(this);
         copy.index = index;
+        return copy;
+    }
+
+    withColor(color: string): HistoricalPolygonData {
+        var copy = HistoricalPolygonData.fromJSON(this);
+        copy.color = color;
         return copy;
     }
 }
