@@ -39,18 +39,9 @@ export default class PolygonDrawer {
 
     }
 
-    private drawPolygonShape(){
-        var poly = new fabric.Polyline([
-            { x: 10, y: 10 },
-            { x: 50, y: 30 },
-            { x: 40, y: 70 },
-            { x: 60, y: 50 },
-            { x: 100, y: 150 },
-            { x: 40, y: 100 }
-          ], {
-          stroke: 'red',
-          left: 100,
-          top: 100
+    private drawPolygonShape() {
+        var poly = new fabric.Polyline(this.polygon.vertices, {
+            stroke: 'red',
         });
         this.canvas.add(poly);
     }
