@@ -1,5 +1,5 @@
 import React, { useContext, Dispatch } from 'react';
-import { Button, Card, CardHeader, CardActions, Switch, FormControlLabel } from '@mui/material';
+import { Button, Card, CardHeader, CardActions, Switch, FormControlLabel, CardContent, Tooltip } from '@mui/material';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasDispatchContext } from '@/context/polygondatas';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -12,14 +12,21 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
 
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
     return (
-        <Card key={props.polygonData.index}>
+        <Card key={props.polygonData.index} className='bg-gray-300'>
             <CardHeader title={`Polygon ${props.polygonData.index}`}></CardHeader>
+            <CardContent>
+
+            </CardContent>
             <CardActions>
-                <Button onClick={() => dispatchPolygonDatas({ type: 'remove', payload: props.polygonData })}>删除</Button>
-                <Button onClick={() => {
-                    console.debug("setting current polygon data");
-                    props.setCurrentPolygonData(props.polygonData);
-                }}>使用</Button>
+                <Tooltip title="删除该记录" placement="top">
+                    <Button className='bg-gray-100' sx={{ boxShadow: 3 }} onClick={() => dispatchPolygonDatas({ type: 'remove', payload: props.polygonData })}>删除</Button>
+                </Tooltip>
+                <Tooltip title="加载这组数据到编辑器中" placement="top">
+                    <Button className='bg-gray-100' sx={{ boxShadow: 3 }} onClick={() => {
+                        console.debug("setting current polygon data");
+                        props.setCurrentPolygonData(props.polygonData);
+                    }}>使用</Button>
+                </Tooltip>
 
                 <FormControl>
                     <InputLabel id="demo-simple-select-autowidth-label">Age</InputLabel>
@@ -32,7 +39,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                             dispatchPolygonDatas({ type: 'update', payload: props.polygonData });
                         }}
                         autoWidth
-                        label="Age"
+                        label="颜色"
                     >
                         {
                             COLORS.map((color, index) => (
@@ -42,7 +49,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                     </Select>
                 </FormControl>
 
-                <FormControlLabel control={
+                <Tooltip title="显示/隐藏" placement="top">
                     <Switch onChange={(show) => {
                         if (show.target.checked) {
                             dispatchPolygonDatas({ type: 'show', payload: props.polygonData });
@@ -52,8 +59,8 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                     }}
                         checked={props.polygonData.show}
                     >
-                    </Switch>}
-                    label='显示'></FormControlLabel>
+                    </Switch>
+                </Tooltip>
             </CardActions>
         </Card>
     );
