@@ -32,7 +32,7 @@ export class PolygonConstructor {
         // calculate the position of the second vertex using first point, first edge length, and the edge0 angle
 
         let secondVertex = new Vector2(firstVertex.x + this.data.edgeLengths[0] * Math.cos(this.data.edge0Angle),
-            firstVertex.y - this.data.edgeLengths[0] * Math.sin(this.data.edge0Angle));
+            firstVertex.y + this.data.edgeLengths[0] * Math.sin(this.data.edge0Angle));
         this.vertices[1] = secondVertex;
     }
 
@@ -43,7 +43,7 @@ export class PolygonConstructor {
 
         let firstVertex = this.vertices[0];
         let thirdVertex = new Vector2(firstVertex.x + this.data.edgeLengths[3] * Math.cos(this.data.angleBetweenFirstAndLastEdge),
-            firstVertex.y - this.data.edgeLengths[3] * Math.sin(this.data.angleBetweenFirstAndLastEdge));
+            firstVertex.y + this.data.edgeLengths[3] * Math.sin(this.data.angleBetweenFirstAndLastEdge));
         this.vertices[3] = thirdVertex;
     }
 
