@@ -27,36 +27,44 @@ export default function PolygonInfoPanel(props: {
 
     return (
         <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
-            {props.data.edgeLengths.map((edge, index) => (
-                <TextField
-                    type="number"
-                    key={index}
-                    label={`${translateEdgeName(index)}`}
-                    value={edge}
-                    onChange={(e) => {
-                        props.setData(currentData => {
-                            console.debug('updating edgeLengths');
-                            let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
+            <Grid container>
+                {props.data.edgeLengths.map((edge, index) => (
+                    <Grid item xs={3}>
+                        <TextField
+                            type="number"
+                            key={index}
+                            label={`${translateEdgeName(index)}`}
+                            value={edge}
+                            onChange={(e) => {
+                                props.setData(currentData => {
+                                    console.debug('updating edgeLengths');
+                                    let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
+                                    let newData = PolygonConstructionData.fromJSON(currentData);
+                                    newData.edgeLengths = newEdges;
+                                    return newData;
+                                });
+                            }}
+                        />
+                    </Grid>
+                ))}
+                <Grid item xs={6}>
+                    <TextField
+                        className="w-full"
+                        type="number"
+                        label="下连杆与前连杆初始角度"
+                        value={props.data.angleBetweenFirstAndLastEdge}
+                        onChange={(e) => props.setData(currentData => {
+                            console.debug('updating angleBetweenFirstAndLastEdge');
                             let newData = PolygonConstructionData.fromJSON(currentData);
-                            newData.edgeLengths = newEdges;
+                            newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
                             return newData;
-                        });
-                    }}
-                />
-            ))}
-            <TextField
-                type="number"
-                label="下连杆与前连杆角度"
-                value={props.data.angleBetweenFirstAndLastEdge}
-                onChange={(e) => props.setData(currentData => {
-                    console.debug('updating angleBetweenFirstAndLastEdge');
-                    let newData = PolygonConstructionData.fromJSON(currentData);
-                    newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
-                    return newData;
-                })} />
-
-            <Button onClick={() => { onSaveData(); }}>保存</Button>
-            <FormHelperText>{errorDialogMessage}</FormHelperText>
+                        })} />
+                </Grid>
+                <Grid item xs={6}>
+                    <Button className="w-full" onClick={() => { onSaveData(); }}>保存</Button>
+                </Grid>
+                <FormHelperText>{errorDialogMessage}</FormHelperText>
+            </Grid>
         </FormControl >
     );
 }
