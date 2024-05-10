@@ -35,7 +35,7 @@ export default function Home() {
       data.edgeLengths = [60, 100, 120, 100];
       data.edge0Angle = 0;
       data.angleBetweenFirstAndLastEdge = 80;
-      data.firstVertex = new Vector2(200, 200);
+      data.firstVertex = new Vector2(0, 0);
       return data;
     });
   }, []);

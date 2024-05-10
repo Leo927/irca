@@ -23,17 +23,17 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     const ctx = new fabric.Canvas(canvasRef.current, {
       height: 400,
       width: 400,
-      backgroundColor: 'white'
     });
     fabric.Object.prototype.transparentCorners = false;
     fabric.Object.prototype.cornerColor = "#2BEBC8";
     fabric.Object.prototype.cornerStyle = "rect";
     fabric.Object.prototype.cornerStrokeColor = "#2BEBC8";
     fabric.Object.prototype.cornerSize = 6;
+    ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);
     return () => {
       ctx.dispose();
-    }
+    };
   }, []);
 
   // draw the polygons
