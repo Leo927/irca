@@ -1,6 +1,7 @@
 import { createContext, Dispatch } from "react";
 import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
 import { fromJSON } from "postcss";
+import { Vector2 } from "../app/logics/vector2";
 
 export const PolygonDatasContext = createContext<HistoricalPolygonData[]>([]);
 export const PolygonDatasDispatchContext = createContext< Dispatch<{
@@ -59,10 +60,14 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         super();
         this.index = 0;
         this.show = false;
+        this.edgeLengths = data.edgeLengths;
+        this.edge0Angle = data.edge0Angle;
+        this.angleBetweenFirstAndLastEdge = data.angleBetweenFirstAndLastEdge;
+        this.firstVertex = new Vector2(data.firstVertex.x, data.firstVertex.y);
     }
 
     static fromJSON(data: any): HistoricalPolygonData {
-        const historicalPolygonData = new HistoricalPolygonData(PolygonConstructionData.fromJSON(data));
+        const historicalPolygonData = new HistoricalPolygonData(data);
         historicalPolygonData.index = data.index;
         historicalPolygonData.show = data.show;
         return historicalPolygonData;
