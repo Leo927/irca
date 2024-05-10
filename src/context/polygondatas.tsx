@@ -4,11 +4,11 @@ import { fromJSON } from "postcss";
 import { Vector2 } from "../app/logics/vector2";
 
 export const PolygonDatasContext = createContext<HistoricalPolygonData[]>([]);
-export const PolygonDatasDispatchContext = createContext< Dispatch<{
+export const PolygonDatasDispatchContext = createContext<Dispatch<{
     type: string;
     payload: any;
 }>>
-(undefined as any);
+    (undefined as any);
 
 
 
@@ -19,18 +19,18 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
                 throw new PayloadValueError(`Invalid payload: ${JSON.stringify(action.payload)}`);
             }
             console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
-            
+
             var newValue = [...state, HistoricalPolygonData.fromJSON(action.payload).withIndex(state.length)];
             localStorage.setItem('polygonDatas', JSON.stringify(newValue));
             return newValue;
         case 'remove':
             console.log(`Removing polygon data: ${JSON.stringify(action.payload)}`);
-            newValue =  state.filter((data) => data.index !== action.payload.index);
+            newValue = state.filter((data) => data.index !== action.payload.index);
             localStorage.setItem('polygonDatas', JSON.stringify(newValue));
             return newValue;
         case 'update':
             console.log(`Updating polygon data: ${JSON.stringify(action.payload)}`);
-            newValue= state.map((data, index) => index === action.payload.index ? action.payload : data);
+            newValue = state.map((data, index) => index === action.payload.index ? action.payload : data);
             localStorage.setItem('polygonDatas', JSON.stringify(newValue));
         case 'clear':
             console.log('Clearing polygon data');
@@ -47,7 +47,7 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             return newValue;
         default:
             throw new Error('Invalid action type');
-        
+
     }
 }
 
@@ -56,18 +56,22 @@ export class HistoricalPolygonData extends PolygonConstructionData {
     index: number;
     show: boolean;
 
-    constructor(data: PolygonConstructionData) {
+
+    constructor() {
         super();
         this.index = 0;
         this.show = false;
-        this.edgeLengths = data.edgeLengths;
-        this.edge0Angle = data.edge0Angle;
-        this.angleBetweenFirstAndLastEdge = data.angleBetweenFirstAndLastEdge;
-        this.firstVertex = new Vector2(data.firstVertex.x, data.firstVertex.y);
     }
 
     static fromJSON(data: any): HistoricalPolygonData {
-        const historicalPolygonData = new HistoricalPolygonData(data);
+        if (data === undefined || data === null) {
+            throw new PayloadValueError(`Invalid payload: ${JSON.stringify(data)}`);
+        }
+        const historicalPolygonData = new HistoricalPolygonData();
+        historicalPolygonData.edgeLengths = data.edgeLengths;
+        historicalPolygonData.edge0Angle = data.edge0Angle;
+        historicalPolygonData.angleBetweenFirstAndLastEdge = data.angleBetweenFirstAndLastEdge;
+        historicalPolygonData.firstVertex = new Vector2(data.firstVertex.x, data.firstVertex.y);
         historicalPolygonData.index = data.index;
         historicalPolygonData.show = data.show;
         return historicalPolygonData;
