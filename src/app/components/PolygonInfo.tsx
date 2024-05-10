@@ -18,19 +18,6 @@ export default function PolygonInfoPanel(props: {
     const [error, setError] = useState(false);
     const [errorDialogMessage, setErrorDialogMessage] = useState('' as string);
 
-    const errorSafeSetData = (newDataSupplier: () => any, fallback: any) => {
-        try {
-            const value = newDataSupplier();
-            setError(false);
-            setErrorDialogMessage('');
-            return value;
-        } catch (e: any) {
-            setError(true);
-            setErrorDialogMessage(e.message);
-            return fallback;
-        }
-    };
-
     function onSaveData() {
         const polygonData = props.data;
         setPolygonDatas({ type: 'add', payload: polygonData });
@@ -47,6 +34,7 @@ export default function PolygonInfoPanel(props: {
                     value={edge}
                     onChange={(e) => {
                         props.setData(currentData => {
+                            console.debug('updating edgeLengths')
                             let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
                             let newData = PolygonConstructionData.fromJSON(currentData)
                             newData.edgeLengths = newEdges;
@@ -59,6 +47,7 @@ export default function PolygonInfoPanel(props: {
                 label="下连杆与前连杆角度"
                 value={props.data.angleBetweenFirstAndLastEdge}
                 onChange={(e) => props.setData(currentData => {
+                    console.debug('updating angleBetweenFirstAndLastEdge')
                     let newData = PolygonConstructionData.fromJSON(currentData);
                     newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
                     return newData;
