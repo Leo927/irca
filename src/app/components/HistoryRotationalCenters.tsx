@@ -19,7 +19,7 @@ export default function HistoryRotationalCenters(props: {currentPolygonData: Pol
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             {polygonDatas.map((polygonData, index) => (
                 <Grid item xs={6}  >
                     <Card key={index}>

@@ -60,19 +60,19 @@ export default function Home() {
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>
       <PolygonDatasDispatchContext.Provider value={dispatchPolygonDatas}>
-        <main className="w-full bg-gray-200 items-center mx-auto columns-1 p-6">
+        <main className="w-full bg-gray-300 items-center mx-auto columns-1 p-6">
           <Box className="items-end py-2" >
             <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setSettingOpen(true)}>
               设置
             </Button>
           </Box>
           <Grid container>
-            <Grid xs={6} className="bg-gray-200 rounded-lg" sx={{boxShadow: 3}}>
+            <Grid item xs={6} className="bg-gray-200" padding="normal">
               <Canvas polygonDatas={drawingDatas} />
               <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
             </Grid>
 
-            <Grid xs={6} className="bg-gray-200 rounded-lg" sx={{boxShadow: 3}}>
+            <Grid item xs={6} className="bg-gray-200">
               <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={setPolygonData} />
             </Grid>
 

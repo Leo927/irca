@@ -27,7 +27,7 @@ export default function PolygonInfoPanel(props: {
 
     return (
         <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
-            <Grid container>
+            <Grid container spacing={1}>
                 {props.data.edgeLengths.map((edge, index) => (
                     <Grid item xs={3}>
                         <TextField

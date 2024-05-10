@@ -37,7 +37,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
   }, [ctx, props.polygonDatas]);
 
   return (
-    <canvas className="self-center h-full" id="myCanvas" width={800} height={400} ref={canvasRef} ></canvas>);
+    <canvas className="self-center h-full" id="myCanvas" width="100%" height={400} ref={canvasRef} ></canvas>);
 
 
 }
