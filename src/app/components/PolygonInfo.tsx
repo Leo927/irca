@@ -29,10 +29,10 @@ export default function PolygonInfoPanel(props: {
         <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
             <Grid container spacing={1}>
                 {props.data.edgeLengths.map((edge, index) => (
-                    <Grid item xs={3}>
+                    <Grid item xs={3}
+                        key={index}>
                         <TextField
                             type="number"
-                            key={index}
                             label={`${translateEdgeName(index)}`}
                             value={edge}
                             onChange={(e) => {

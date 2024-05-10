@@ -22,8 +22,8 @@ export default function HistoryRotationalCenters(props: { currentPolygonData: Po
 
     return (
         <Grid container spacing={2}>
-            {polygonDatas.map((polygonData) => (
-                <Grid item xs={6}  >
+            {polygonDatas.map((polygonData, index) => (
+                <Grid item xs={6} key={index} >
                     <HistoricalPolygonConstructionDataInfo polygonData={polygonData} currentPolygonData={props.currentPolygonData} setCurrentPolygonData={props.setCurrentPolygonData} />
                 </Grid>
             ))}
