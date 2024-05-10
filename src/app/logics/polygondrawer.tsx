@@ -35,7 +35,8 @@ export default class PolygonDrawer {
         // });
         this.group = new fabric.Group([], {
             hasControls: false,
-            hoverCursor: "pointer"
+            hoverCursor: "pointer",
+            selectable: false
         });
         this.drawPolygonShape();
         this.drawRotationalCenters();
