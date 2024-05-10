@@ -21,8 +21,8 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
   // update the canvas when the polygon changes
   useEffect(() => {
     const ctx = new fabric.Canvas(canvasRef.current, {
-      height: 400,
-      width: 400,
+      height: 800,
+      width: 800,
     });
     fabric.Object.prototype.transparentCorners = false;
     fabric.Object.prototype.cornerColor = "#2BEBC8";
