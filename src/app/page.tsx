@@ -15,36 +15,46 @@ import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, 
 
 
 
-function loadPolygonData() {
+function loadPolygonDatas() {
   const value = (JSON.parse(localStorage?.getItem('polygonDatas') || '[]') as Object[]).map(HistoricalPolygonData.fromJSON);
   return value;
 }
 
+function loadPolygonData() {
+  let value = localStorage.getItem('polygonData');
+  if (value === null || value === undefined) {
+    let data = new PolygonConstructionData();
+    data.edgeLengths = [60, 100, 120, 100];
+    data.edge0Angle = 0;
+    data.angleBetweenFirstAndLastEdge = 80;
+    data.firstVertex = new Vector2(0, 0);
+    return data;
+  } else {
+    try {
+      return PolygonConstructionData.fromJSON(JSON.parse(value));
+    } catch (error) {
+      return new PolygonConstructionData();
+    }
+  }
+}
+
 
 export default function Home() {
-  const [polygonData, setPolygonData] = useState<PolygonConstructionData>(
-    new PolygonConstructionData());
+  const [polygonData, setPolygonData] = useState<PolygonConstructionData>(loadPolygonData());
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
-  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonData());
+  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonDatas());
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
-
-  // initialize the polygon data
-  useEffect(() => {
-    setPolygonData(() => {
-      let data = new PolygonConstructionData();
-      data.edgeLengths = [60, 100, 120, 100];
-      data.edge0Angle = 0;
-      data.angleBetweenFirstAndLastEdge = 80;
-      data.firstVertex = new Vector2(0, 0);
-      return data;
-    });
-  }, []);
 
   useEffect(() => {
     let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true).withIndex(-1);
-    console.log('updating drawing datas', currentPolygon, polygonData);
+    console.debug('updating drawing datas', currentPolygon, polygonData);
     setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon]);
   }, [polygonDatas, polygonData]);
+
+  // save the polygon data
+  useEffect(() => {
+    localStorage.setItem('polygonData', JSON.stringify(polygonData));
+  }, [polygonData]);
 
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>

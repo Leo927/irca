@@ -21,7 +21,6 @@ export class RotationalCentersAnalyzer {
             try {
                 const rotationalCenter = new RotationCenterFinder(polygon).getRotationalCenter();
                 rotationalCenters.push(rotationalCenter);
-                console.log("rotationalCenter", rotationalCenter);
             } catch (e) {
                 if (e instanceof EdgesParallelOrCoincidentError) {
                     continue;
