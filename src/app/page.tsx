@@ -48,7 +48,7 @@ export default function Home() {
   useEffect(() => {
     let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true).withIndex(-1);
     console.debug('updating drawing datas', currentPolygon, polygonData);
-    setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon]);
+    setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon.withColor('black')]);
   }, [polygonDatas, polygonData]);
 
   // save the polygon data

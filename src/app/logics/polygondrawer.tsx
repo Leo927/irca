@@ -46,7 +46,7 @@ export default class PolygonDrawer {
 
     private drawPolygonShape() {
         var poly = new fabric.Polyline([...this.polygon.vertices, this.polygon.vertices[0]], {
-            stroke: 'red',
+            stroke: this.constructionData.color,
             fill: '',
             strokeWidth: 2,
             selectable: true,
@@ -62,11 +62,11 @@ export default class PolygonDrawer {
             try {
                 const rotationalCenter = new RotationCenterFinder(this.polygon).getRotationalCenter();
                 let circle = new fabric.Circle({
-                    stroke: 'red',
+                    stroke: this.constructionData.color,
                     radius: 5,
                     fill: '',
-                    left: rotationalCenter.x - 2.5,
-                    top: rotationalCenter.y + 2.5,
+                    left: rotationalCenter.x,
+                    top: rotationalCenter.y,
                     hasControls: false,
                     hoverCursor: "pointer"
                 });
@@ -82,7 +82,7 @@ export default class PolygonDrawer {
             let centers = new RotationalCentersAnalyzer(this.constructionData).findRotationalCenters();
             let line = new fabric.Polyline(centers, {
                 transparentCorners: true,
-                stroke: 'red',
+                stroke: this.constructionData.color,
                 fill: '',
                 selectable: true,
                 hasControls: false,
