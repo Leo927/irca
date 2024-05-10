@@ -2,12 +2,6 @@
 
 import { useRef } from "react";
 import { useEffect, useState } from "react";
-import { Polygon } from "@/app/logics/polygon";
-import { Vector2 } from '@/app/logics/vector2';
-import { Line } from "@/app/logics/line";
-import { RotationalCentersAnalyzer } from "@/app/logics/rotation-center-arc";
-import { RotationCenterFinder } from "@/app/logics/rotation-center-finder";
-import { PolygonConstructionData, PolygonConstructor } from "@/app/logics/polygon-constructor";
 import { HistoricalPolygonData } from "@/context/polygondatas";
 import { fabric } from 'fabric';
 import PolygonDrawer from "@/app/logics/polygondrawer";
@@ -21,7 +15,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
   // update the canvas when the polygon changes
   useEffect(() => {
     const ctx = new fabric.Canvas(canvasRef.current, {
-      height: 800,
+      height: 400,
       width: 800,
     });
     fabric.Object.prototype.transparentCorners = true;
@@ -43,7 +37,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
   }, [ctx, props.polygonDatas]);
 
   return (
-    <canvas className="w-full self-center h-full" id="myCanvas" width={800} height={800} ref={canvasRef} ></canvas>);
+    <canvas className="self-center h-full" id="myCanvas" width={800} height={400} ref={canvasRef} ></canvas>);
 
 
 }

@@ -8,6 +8,7 @@ import { PolygonDatasDispatchContext } from "@/context/polygondatas";
 import { translateEdgeName } from "@/app/logics/helpers";
 import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
+import Grid from "@mui/material/Grid";
 
 
 export default function PolygonInfoPanel(props: {
@@ -25,7 +26,7 @@ export default function PolygonInfoPanel(props: {
     }
 
     return (
-        <FormControl sx={{ m: 3 }} error={error} variant="standard">
+        <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
             {props.data.edgeLengths.map((edge, index) => (
                 <TextField
                     type="number"
@@ -34,11 +35,12 @@ export default function PolygonInfoPanel(props: {
                     value={edge}
                     onChange={(e) => {
                         props.setData(currentData => {
-                            console.debug('updating edgeLengths')
+                            console.debug('updating edgeLengths');
                             let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
-                            let newData = PolygonConstructionData.fromJSON(currentData)
+                            let newData = PolygonConstructionData.fromJSON(currentData);
                             newData.edgeLengths = newEdges;
-                            return newData;});
+                            return newData;
+                        });
                     }}
                 />
             ))}
@@ -47,7 +49,7 @@ export default function PolygonInfoPanel(props: {
                 label="下连杆与前连杆角度"
                 value={props.data.angleBetweenFirstAndLastEdge}
                 onChange={(e) => props.setData(currentData => {
-                    console.debug('updating angleBetweenFirstAndLastEdge')
+                    console.debug('updating angleBetweenFirstAndLastEdge');
                     let newData = PolygonConstructionData.fromJSON(currentData);
                     newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
                     return newData;

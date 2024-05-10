@@ -8,6 +8,7 @@ import { Polygon } from "@/app/logics/polygon";
 import { Modal, TextField, Button } from "@mui/material";
 import Settings from "@/app/settings/page";
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import PolygonInfoPanel from "@/app/components/PolygonInfo";
 import Canvas from "@/app/components/Canvas";
 import HistoryRotationalCenters from "./components/HistoryRotationalCenters";
@@ -59,22 +60,23 @@ export default function Home() {
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>
       <PolygonDatasDispatchContext.Provider value={dispatchPolygonDatas}>
-        <main className="w-full bg-gray-50 items-center mx-auto columns-1 p-6">
+        <main className="w-full bg-gray-200 items-center mx-auto columns-1 p-6">
           <Box className="items-end py-2" >
             <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setSettingOpen(true)}>
               设置
             </Button>
           </Box>
-          <Box className="columns-2">
-            <Canvas polygonDatas={drawingDatas} />
-            <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
+          <Grid container>
+            <Grid xs={6} className="bg-gray-200 rounded-lg" sx={{boxShadow: 3}}>
+              <Canvas polygonDatas={drawingDatas} />
+              <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
+            </Grid>
 
-            <Box>
+            <Grid xs={6} className="bg-gray-200 rounded-lg" sx={{boxShadow: 3}}>
+              <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={setPolygonData} />
+            </Grid>
 
-              <HistoryRotationalCenters setCurrentPolygonData={setPolygonData} />
-
-            </Box>
-          </Box>
+          </Grid>
 
 
           <Modal
