@@ -14,8 +14,14 @@ export default function HistoryRotationalCenters(props: { setCurrentPolygonData:
                     <CardHeader title={`Polygon ${index}`}></CardHeader>
                     <CardActions>
                         <Button onClick={() => dispatchPolygonDatas({ type: 'remove', payload: polygonData })}>删除</Button>
-                        <Button onClick={() => props.setCurrentPolygonData(polygonData)}>使用</Button>
-                        <FormControlLabel control={<Switch onChange={(show) => dispatchPolygonDatas({ type: 'show', payload: polygonData })}></Switch>}
+                        <Button onClick={() => {
+                            console.debug("setting current polygon data");
+                            props.setCurrentPolygonData(polygonData);
+                        }}>使用</Button>
+                        <FormControlLabel control={
+                            <Switch onChange={(show) => dispatchPolygonDatas({ type: 'show', payload: polygonData })}
+                                value={polygonData.show}>
+                            </Switch>}
                             label='显示'></FormControlLabel>
                     </CardActions>
                 </Card>
