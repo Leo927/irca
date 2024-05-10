@@ -1,5 +1,23 @@
 import { Vector2 } from "./vector2";
 import { Line } from "./line";
+import { PolygonConstructionData } from "./polygon-constructor";
+import { RotationalCentersAnalyzer } from "./rotation-center-arc";
+
+export class PolygonComparator {
+    private polygon1: PolygonConstructionData;
+    private polygon2: PolygonConstructionData;
+    constructor(polygon1: PolygonConstructionData, polygon2: PolygonConstructionData) {
+        this.polygon1 = polygon1;
+        this.polygon2 = polygon2;
+    }
+    public getHandsOffDistance(): number {
+        const pointCloud1 = new RotationalCentersAnalyzer(this.polygon1).findRotationalCenters();
+        const pointCloud2 = new RotationalCentersAnalyzer(this.polygon2).findRotationalCenters();
+        const similarityCalculator = new HandsOffDistance(pointCloud1, pointCloud2);
+        return similarityCalculator.getSimilarity();
+    }
+
+}
 
 export class SimilarityCalculator {
     protected pointCloud1: Vector2[];
@@ -28,7 +46,7 @@ export class HandsOffDistance extends SimilarityCalculator {
                 }
             });
             sumDistance += minDistance;
-        })
+        });
         return sumDistance;
     }
 }

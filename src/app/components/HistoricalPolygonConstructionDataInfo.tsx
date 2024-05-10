@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { PolygonConstructionData } from '../logics/polygon-constructor';
+import { PolygonComparator } from '../logics/similarity-calculator';
 const COLORS = [{ name: "黑色", value: "black" }, { name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
 export function HistoricalPolygonConstructionDataInfo(props: { polygonData: HistoricalPolygonData, currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<PolygonConstructionData>; }) {
 
@@ -15,7 +16,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
         <Card key={props.polygonData.index} className='bg-gray-300'>
             <CardHeader title={`Polygon ${props.polygonData.index}`}></CardHeader>
             <CardContent>
-
+                HandsOffDistance {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance()}
             </CardContent>
             <CardActions>
                 <Tooltip title="删除该记录" placement="top">
