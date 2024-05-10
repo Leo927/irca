@@ -41,8 +41,10 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setDrawingDatas([...polygonDatas.filter((data) => data.show)]);
-  }, [polygonDatas]);
+    let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true).withIndex(-1);
+    console.log('updating drawing datas', currentPolygon, polygonData);
+    setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon]);
+  }, [polygonDatas, polygonData]);
 
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>
