@@ -45,6 +45,11 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             newValue = state.map((data, index) => index === action.payload.index ? data.withShow(true) : data);
             localStorage.setItem('polygonDatas', JSON.stringify(newValue));
             return newValue;
+        case 'hide':
+            console.log(`Hiding polygon data: ${JSON.stringify(action.payload)}`);
+            newValue = state.map((data, index) => index === action.payload.index ? data.withShow(false) : data);
+            localStorage.setItem('polygonDatas', JSON.stringify(newValue));
+            return newValue;
         default:
             throw new Error('Invalid action type');
 
