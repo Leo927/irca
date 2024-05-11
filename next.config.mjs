@@ -9,6 +9,10 @@ const nextConfig = {
       canvas: "commonjs canvas",
     });
     // config.infrastructureLogging = { debug: /PackFileCache/ };
+    config.externals.push({
+      sharp: 'commonjs fabric',
+      canvas: 'commonjs canvas'
+    });
     return config;
   },
 };
@@ -19,9 +23,8 @@ if (
     `${process.env.PWD}/node_modules/canvas/build/Release:`,
   )
 ) {
-  process.env.LD_LIBRARY_PATH = `${
-    process.env.PWD
-  }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ''}`;
+  process.env.LD_LIBRARY_PATH = `${process.env.PWD
+    }/node_modules/canvas/build/Release:${process.env.LD_LIBRARY_PATH || ''}`;
 }
 
 export default nextConfig;
