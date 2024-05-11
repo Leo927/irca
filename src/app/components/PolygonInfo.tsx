@@ -38,7 +38,7 @@ export default function PolygonInfoPanel(props: {
                             onChange={(e) => {
                                 props.setData(currentData => {
                                     console.debug('updating edgeLengths');
-                                    let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseInt(e.target.value) : value);
+                                    let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseFloat(e.target.value) : value);
                                     let newData = PolygonConstructionData.fromJSON(currentData);
                                     newData.edgeLengths = newEdges;
                                     return newData;
@@ -56,7 +56,7 @@ export default function PolygonInfoPanel(props: {
                         onChange={(e) => props.setData(currentData => {
                             console.debug('updating angleBetweenFirstAndLastEdge');
                             let newData = PolygonConstructionData.fromJSON(currentData);
-                            newData.angleBetweenFirstAndLastEdge = parseInt(e.target.value);
+                            newData.angleBetweenFirstAndLastEdge = parseFloat(e.target.value);
                             return newData;
                         })} />
                 </Grid>
@@ -69,7 +69,7 @@ export default function PolygonInfoPanel(props: {
                         onChange={(e) => props.setData(currentData => {
                             console.debug('updating edge0Angle');
                             let newData = PolygonConstructionData.fromJSON(currentData);
-                            newData.edge0Angle = parseInt(e.target.value);
+                            newData.edge0Angle = parseFloat(e.target.value);
                             return newData;
                         })} />
                 </Grid>
