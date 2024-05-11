@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Vector2 } from '@/app/logics/vector2';
 import { PolygonConstructionData, PolygonConstructor } from '@/app/logics/polygon-constructor';
 import { Polygon } from "@/app/logics/polygon";
-import { Modal, TextField, Button } from "@mui/material";
+import { Modal, TextField, Button, IconButton, Tooltip } from "@mui/material";
 import Settings from "@/app/settings/page";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -13,8 +13,9 @@ import PolygonInfoPanel from "@/app/components/PolygonInfo";
 import Canvas from "@/app/components/Canvas";
 import HistoryRotationalCenters from "./components/HistoryRotationalCenters";
 import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, HistoricalPolygonData } from '@/context/polygondatas';
-
-
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
+import { UploadFileOutlined } from "@mui/icons-material";
 
 function loadPolygonDatas() {
   const value = (JSON.parse(typeof window !== "undefined" ? window.localStorage.getItem('polygonDatas') || '[]' : "[]") as Object[]).map(HistoricalPolygonData.fromJSON);
@@ -57,7 +58,7 @@ export default function Home() {
     setPolygonData(data);
     localStorage.setItem('polygonData', JSON.stringify(data));
   };
-  
+
   // load the polygon data
   useEffect(() => {
     dispatchPolygonDatas({ type: 'set', payload: loadPolygonDatas() });
@@ -76,9 +77,21 @@ export default function Home() {
       <PolygonDatasDispatchContext.Provider value={dispatchPolygonDatas}>
         <main className="w-full bg-gray-300 items-center mx-auto columns-1 p-6">
           <Box className="items-end py-2" >
-            <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setSettingOpen(true)}>
-              设置
-            </Button>
+            <Tooltip title="设置">
+              <IconButton onClick={() => setSettingOpen(true)}>
+                <SettingsOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="导出数据">
+              <IconButton onClick={() => setSettingOpen(true)}>
+                <SaveAltOutlinedIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="导入数据">
+              <IconButton onClick={() => setSettingOpen(true)}>
+                <UploadFileOutlined />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Grid container>
             <Grid item xs={6} className="bg-gray-200" padding="normal">
@@ -99,6 +112,7 @@ export default function Home() {
             aria-labelledby="设置"
             aria-describedby="设置"
           >
+
             <Box>
               <Settings />
             </Box>
