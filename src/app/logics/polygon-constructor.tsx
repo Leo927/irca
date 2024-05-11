@@ -31,8 +31,8 @@ export class PolygonConstructor {
         let firstVertex = this.vertices[0];
         // calculate the position of the second vertex using first point, first edge length, and the edge0 angle
 
-        let secondVertex = new Vector2(firstVertex.x + this.data.edgeLengths[0] * Math.cos(this.data.edge0Angle),
-            firstVertex.y + this.data.edgeLengths[0] * Math.sin(this.data.edge0Angle));
+        let secondVertex = new Vector2(firstVertex.x + this.data.edgeLengths[0] * Math.cos(toRadians(-this.data.edge0Angle)),
+            firstVertex.y + this.data.edgeLengths[0] * Math.sin(toRadians(-this.data.edge0Angle)));
         this.vertices[1] = secondVertex;
     }
 

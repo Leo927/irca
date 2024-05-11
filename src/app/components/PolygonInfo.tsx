@@ -61,6 +61,19 @@ export default function PolygonInfoPanel(props: {
                         })} />
                 </Grid>
                 <Grid item xs={6}>
+                    <TextField
+                        className="w-full"
+                        type="number"
+                        label="下连杆水平夹角"
+                        value={props.data.edge0Angle}
+                        onChange={(e) => props.setData(currentData => {
+                            console.debug('updating edge0Angle');
+                            let newData = PolygonConstructionData.fromJSON(currentData);
+                            newData.edge0Angle = parseInt(e.target.value);
+                            return newData;
+                        })} />
+                </Grid>
+                <Grid item xs={12}>
                     <Button className="w-full" onClick={() => { onSaveData(); }}>保存</Button>
                 </Grid>
                 <FormHelperText>{errorDialogMessage}</FormHelperText>
