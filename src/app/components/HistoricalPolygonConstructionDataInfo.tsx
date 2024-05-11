@@ -26,6 +26,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
         <Box>
             <Card key={props.polygonData.index} className='bg-gray-300'>
                 <CardActionArea onClick={onClickName}>
+                    <Tooltip title="更改名字" placement="top-start">
                 <CardHeader title={`${props.polygonData.name}`} onClick={onClickName} action={
                     <Tooltip title="删除该记录" placement="top">
                         <IconButton onClick={() => dispatchPolygonDatas({ type: 'remove', payload: props.polygonData })}>
@@ -33,6 +34,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                         </IconButton>
                     </Tooltip>
                 }></CardHeader>
+                </Tooltip>
                 </CardActionArea>
                 <CardContent>
                     换手距离 {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance().toFixed(2)}
