@@ -14,6 +14,8 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   // update the canvas when the polygon changes
   useEffect(() => {
+    let dragging = false;
+    let LastPoint = new fabric.Point(0, 0);
 
     const ctx = new fabric.Canvas("myCanvas", {
       height: 400,
@@ -22,7 +24,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     });
     ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);
-    
+
     ctx.on('mouse:wheel', function (opt) {
       var delta = opt.e.deltaY;
       var zoom = ctx.getZoom();
@@ -32,6 +34,28 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
       ctx.zoomToPoint(new fabric.Point(opt.e.offsetX, opt.e.offsetY), zoom);
       opt.e.preventDefault();
       opt.e.stopPropagation();
+    });
+
+    ctx.on('mouse:down', function (opt) {
+      console.debug('mouse down');
+      ctx.selection = false;
+      dragging = true;
+      LastPoint = opt.viewportPoint;
+    });
+
+    ctx.on('mouse:up', function () {
+      console.debug('mouse up');
+      ctx.selection = true;
+      dragging = false;
+    });
+
+    ctx.on('mouse:move', function (opt) {
+      if (dragging) {
+        console.debug('mouse move');
+        var delta = new fabric.Point(opt.viewportPoint.x - LastPoint.x, opt.viewportPoint.y - LastPoint.y);
+        ctx.relativePan(delta);
+        LastPoint = opt.viewportPoint;
+      }
     });
 
     return () => {
@@ -74,4 +98,21 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
       </div>
     </div>
   );
+}
+
+function loadViewPortPoint(): fabric.Point {
+  const item = JSON.parse(localStorage.getItem("pan") || '{ x: 0, y: 0 }');
+  return new fabric.Point(item.x, item.y);
+}
+
+function saveViewPortPoint(point: fabric.Point) {
+  localStorage.setItem("pan", JSON.stringify({ x: point.x, y: point.y }));
+}
+
+function loadZoom(): number {
+  return parseFloat(localStorage.getItem("zoom") || '1');
+}
+
+function saveZoom(zoom: number) {
+  localStorage.setItem("zoom", zoom.toString());
 }
