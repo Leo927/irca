@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@types/fabric": "^5.3.7",
+    "@types/node": "20.12.11",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
