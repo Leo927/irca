@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { HistoricalPolygonData } from "@/context/polygondatas";
-import { IconButton } from "@mui/material";
+import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import * as fabric from 'fabric';
@@ -89,12 +89,16 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     <div style={{ position: "relative" }}>
       <canvas className="self-center h-full" id="myCanvas" width="100%" height={400} ref={canvasRef}></canvas>
       <div style={{ position: "absolute", top: 0, right: 0 }}>
-        <IconButton onClick={handleZoomIn}>
-          <AddIcon />
-        </IconButton>
-        <IconButton onClick={handleZoomOut}>
-          <RemoveIcon />
-        </IconButton>
+        <Tooltip title="放大">
+          <IconButton onClick={handleZoomIn}>
+            <AddIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="缩小">
+          <IconButton onClick={handleZoomOut}>
+            <RemoveIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     </div>
   );
