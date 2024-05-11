@@ -10,6 +10,7 @@ import { PolygonConstructionData } from '../logics/polygon-constructor';
 import { PolygonComparator } from '../logics/similarity-calculator';
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
 
 const COLORS = [{ name: "黑色", value: "black" }, { name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
 export function HistoricalPolygonConstructionDataInfo(props: { polygonData: HistoricalPolygonData, currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<PolygonConstructionData>; }) {
@@ -25,17 +26,20 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
     return (
         <Box>
             <Card key={props.polygonData.index} className='bg-gray-300'>
-                <CardActionArea onClick={onClickName}>
-                    <Tooltip title="更改名字" placement="top-start">
-                <CardHeader title={`${props.polygonData.name}`} onClick={onClickName} action={
-                    <Tooltip title="删除该记录" placement="top">
-                        <IconButton onClick={() => dispatchPolygonDatas({ type: 'remove', payload: props.polygonData })}>
-                            <CloseIcon />
-                        </IconButton>
-                    </Tooltip>
+                <CardHeader title={`${props.polygonData.name}`} action={
+                    <Grid>
+                        <Tooltip title="修改" placement="top">
+                            <IconButton onClick={onClickName}>
+                                <EditIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="删除该记录" placement="top">
+                            <IconButton onClick={() => dispatchPolygonDatas({ type: 'remove', payload: props.polygonData })}>
+                                <CloseIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
                 }></CardHeader>
-                </Tooltip>
-                </CardActionArea>
                 <CardContent>
                     换手距离 {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance().toFixed(2)}
                 </CardContent>
