@@ -50,12 +50,12 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             return action.payload;
         case 'show':
             console.log(`Showing polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.map((data, index) => index === action.payload.index ? data.withShow(true) : data);
+            newValue = state.map((data) => data.index === action.payload.index ? data.withShow(true) : data);
             savePolygonDatas(newValue);
             return newValue;
         case 'hide':
             console.log(`Hiding polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.map((data, index) => index === action.payload.index ? data.withShow(false) : data);
+            newValue = state.map((data) => data.index === action.payload.index ? data.withShow(false) : data);
             savePolygonDatas(newValue);
             return newValue;
         default:
