@@ -10,7 +10,7 @@ import PolygonDrawer from "@/app/logics/polygondrawer";
 
 export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [ctx, setCtx] = useState<fabric.Canvas | null>(null);
+  const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
 
   // update the canvas when the polygon changes
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
       objectCaching: false,
     });
     ctx.relativePan(new fabric.Point(200, 200));
-    setCtx(ctx);
+    setCanvas(ctx);
 
     ctx.on('mouse:wheel', function (opt) {
       var delta = opt.e.deltaY;
@@ -65,23 +65,23 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   // draw the polygons
   useEffect(() => {
-    if (ctx === null) return;
-    ctx.clear();
+    if (canvas === null) return;
+    canvas.clear();
     props.polygonDatas.forEach((polygonData) => {
-      const drawer = new PolygonDrawer(ctx, polygonData);
+      const drawer = new PolygonDrawer(canvas, polygonData);
       drawer.drawPolygon();
     });
-  }, [ctx, props.polygonDatas]);
+  }, [canvas, props.polygonDatas]);
 
   const handleZoomIn = () => {
-    if (ctx !== null) {
-      ctx.setZoom(ctx.getZoom() * 1.1);
+    if (canvas !== null) {
+      canvas.setZoom(canvas.getZoom() * 1.1);
     }
   };
 
   const handleZoomOut = () => {
-    if (ctx !== null) {
-      ctx.setZoom(ctx.getZoom() / 1.1);
+    if (canvas !== null) {
+      canvas.setZoom(canvas.getZoom() / 1.1);
     }
   };
 
