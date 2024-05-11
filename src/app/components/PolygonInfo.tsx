@@ -47,7 +47,7 @@ export default function PolygonInfoPanel(props: {
                         />
                     </Grid>
                 ))}
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                     <TextField
                         className="w-full"
                         type="number"
@@ -60,7 +60,7 @@ export default function PolygonInfoPanel(props: {
                             return newData;
                         })} />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={3}>
                     <TextField
                         className="w-full"
                         type="number"
@@ -73,7 +73,7 @@ export default function PolygonInfoPanel(props: {
                             return newData;
                         })} />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <Button className="w-full" onClick={() => { onSaveData(); }}>保存</Button>
                 </Grid>
                 <FormHelperText>{errorDialogMessage}</FormHelperText>
