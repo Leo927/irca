@@ -5,8 +5,10 @@ import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import * as fabric from 'fabric';
+import CenterFocusStrongOutlinedIcon from '@mui/icons-material/CenterFocusStrongOutlined';
 
 import PolygonDrawer from "@/app/logics/polygondrawer";
+import { CenterFocusStrong, CenterFocusStrongOutlined } from "@mui/icons-material";
 
 export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -18,11 +20,11 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     let LastPoint = new fabric.Point(0, 0);
 
     const ctx = new fabric.Canvas("myCanvas", {
-      height: 400,
+      height: 600,
       width: 800,
       objectCaching: false,
     });
-    ctx.relativePan(new fabric.Point(200, 200));
+    ctx.relativePan(new fabric.Point(400, 300));
     setCanvas(ctx);
 
     ctx.on('mouse:wheel', function (opt) {
@@ -87,7 +89,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   return (
     <div style={{ position: "relative" }}>
-      <canvas className="self-center h-full" id="myCanvas" width="100%" height={400} ref={canvasRef}></canvas>
+      <canvas className="self-center h-full" id="myCanvas" width="100%" height="100%" ref={canvasRef}></canvas>
       <div style={{ position: "absolute", top: 0, right: 0 }}>
         <Tooltip title="放大">
           <IconButton onClick={handleZoomIn}>
@@ -97,6 +99,11 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
         <Tooltip title="缩小">
           <IconButton onClick={handleZoomOut}>
             <RemoveIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="自动聚焦">
+          <IconButton onClick={() => { }}>
+            <CenterFocusStrongOutlined />
           </IconButton>
         </Tooltip>
       </div>
