@@ -26,6 +26,7 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             const newItem = HistoricalPolygonData.fromJSON(action.payload).withIndex(state.reduce((max, data) => Math.max(max, data.index), -1) + 1);
             if (action.payload instanceof PolygonConstructionData) {
                 newItem.color = 'black';
+                newItem.name = "未命名";
             }
             var newValue = [...state, newItem];
             savePolygonDatas(newValue);
@@ -69,6 +70,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
     index: number;
     show: boolean;
     color: string;
+    name: string;
 
 
     constructor() {
@@ -76,6 +78,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         this.index = 0;
         this.show = false;
         this.color = 'black';
+        this.name = '';
     }
 
     static fromJSON(data: any): HistoricalPolygonData {
@@ -90,6 +93,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         historicalPolygonData.index = data.index;
         historicalPolygonData.show = data.show;
         historicalPolygonData.color = data.color;
+        historicalPolygonData.name = data.name;
         return historicalPolygonData;
     }
 
