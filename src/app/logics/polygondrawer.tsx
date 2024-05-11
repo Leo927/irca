@@ -1,4 +1,4 @@
-import { fabric } from 'fabric';
+import * as fabric  from 'fabric';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { Line } from '@/app/logics/line';
 import { PolygonConstructor } from '@/app/logics/polygon-constructor';
@@ -55,7 +55,7 @@ export default class PolygonDrawer {
             hasBorders: true,
             hoverCursor: "pointer"
         });
-        this.group.addWithUpdate(poly);
+        this.group.add(poly);
     }
 
     private drawCurrentRotationalCenter() {
@@ -71,7 +71,7 @@ export default class PolygonDrawer {
                     hasControls: false,
                     hoverCursor: "pointer"
                 });
-                this.group.addWithUpdate(circle);
+                this.group.add(circle);
             } catch (e) {
                 console.error("Error", e);
             }
@@ -91,7 +91,7 @@ export default class PolygonDrawer {
                 hoverCursor: "pointer"
                 
             });
-            this.group.addWithUpdate(line);
+            this.group.add(line);
         }
     }
 }

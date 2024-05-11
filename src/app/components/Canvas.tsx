@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { HistoricalPolygonData } from "@/context/polygondatas";
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
+
 import PolygonDrawer from "@/app/logics/polygondrawer";
 
 export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }) {
@@ -14,11 +15,10 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   // update the canvas when the polygon changes
   useEffect(() => {
-    const ctx = new fabric.Canvas(canvasRef.current, {
+    const ctx = new fabric.Canvas("myCanvas", {
       height: 400,
       width: 800,
     });
-    fabric.Object.prototype.transparentCorners = true;
     ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);
     return () => {
