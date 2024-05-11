@@ -18,6 +18,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     const ctx = new fabric.Canvas("myCanvas", {
       height: 400,
       width: 800,
+      objectCaching: false,
     });
     ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);

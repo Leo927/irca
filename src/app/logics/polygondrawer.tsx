@@ -1,4 +1,4 @@
-import * as fabric  from 'fabric';
+import * as fabric from 'fabric';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { Line } from '@/app/logics/line';
 import { PolygonConstructor } from '@/app/logics/polygon-constructor';
@@ -36,7 +36,8 @@ export default class PolygonDrawer {
         this.group = new fabric.Group([], {
             hasControls: false,
             hoverCursor: "pointer",
-            selectable: false
+            selectable: false,
+            objectCaching: false,
         });
         this.drawPolygonShape();
         this.drawRotationalCenters();
@@ -53,7 +54,8 @@ export default class PolygonDrawer {
             selectable: true,
             hasControls: false,
             hasBorders: true,
-            hoverCursor: "pointer"
+            hoverCursor: "pointer",
+            objectCaching: false,
         });
         this.group.add(poly);
     }
@@ -69,7 +71,8 @@ export default class PolygonDrawer {
                     left: rotationalCenter.x,
                     top: rotationalCenter.y,
                     hasControls: false,
-                    hoverCursor: "pointer"
+                    hoverCursor: "pointer",
+                    objectCaching: false,
                 });
                 this.group.add(circle);
             } catch (e) {
@@ -88,8 +91,8 @@ export default class PolygonDrawer {
                 selectable: true,
                 hasControls: false,
                 hasBorders: true,
-                hoverCursor: "pointer"
-                
+                hoverCursor: "pointer",
+                objectCaching: false,
             });
             this.group.add(line);
         }

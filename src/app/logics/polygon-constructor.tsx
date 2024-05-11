@@ -60,7 +60,7 @@ export class PolygonConstructor {
         let secondVertex = this.vertices[1];
         let forthVertex = this.vertices[3];
         let [intersection1, intersection2] = this.findCirclesIntersection(secondVertex, this.data.edgeLengths[1], forthVertex, this.data.edgeLengths[2]);
-        let thirdVertex = intersection1.y < intersection2.y ? intersection1 : intersection2;
+        let thirdVertex = intersection1.x > intersection2.x ? intersection1 : intersection2;
         this.vertices[2] = thirdVertex;
     }
 
@@ -123,7 +123,7 @@ export class PolygonConstructionData {
 
 
 
-    static fromJSON(data: any) : PolygonConstructionData{
+    static fromJSON(data: any): PolygonConstructionData {
         const polygonData = new PolygonConstructionData();
         polygonData.edgeLengths = data.edgeLengths;
         polygonData.edge0Angle = data.edge0Angle;
@@ -144,7 +144,7 @@ export class PolygonConstructionData {
         data.edge0Angle = this.edge0Angle;
         data.angleBetweenFirstAndLastEdge = this.angleBetweenFirstAndLastEdge;
         data.firstVertex = this.firstVertex;
-        return data
+        return data;
     }
 }
 
