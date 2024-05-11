@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useReducer } from "react";
+import { Dispatch, useEffect, useReducer, SetStateAction } from "react";
 import { useState } from "react";
 import { Vector2 } from '@/app/logics/vector2';
 import { PolygonConstructionData, PolygonConstructor } from '@/app/logics/polygon-constructor';
@@ -17,12 +17,12 @@ import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, 
 
 
 function loadPolygonDatas() {
-  const value = (JSON.parse(localStorage?.getItem('polygonDatas') || '[]') as Object[]).map(HistoricalPolygonData.fromJSON);
+  const value = (JSON.parse(typeof window !== "undefined" ? window.localStorage.getItem('polygonDatas') || '[]' : "[]") as Object[]).map(HistoricalPolygonData.fromJSON);
   return value;
 }
 
 function loadPolygonData() {
-  let value = localStorage.getItem('polygonData');
+  let value = window?.localStorage.getItem('polygonData');
   if (value === null || value === undefined) {
     let data = new PolygonConstructionData();
     data.edgeLengths = [60, 100, 120, 100];
@@ -41,9 +41,10 @@ function loadPolygonData() {
 
 
 export default function Home() {
-  const [polygonData, setPolygonData] = useState<PolygonConstructionData>(loadPolygonData());
+  const [loaded, setLoaded] = useState<boolean>(false);
+  const [polygonData, setPolygonData] = useState<PolygonConstructionData>(new PolygonConstructionData());
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
-  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, loadPolygonDatas());
+  const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, []);
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
 
   useEffect(() => {
@@ -52,9 +53,22 @@ export default function Home() {
     setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon.withColor('black')]);
   }, [polygonDatas, polygonData]);
 
+  const savePolygonDataWithSave = (data: SetStateAction<PolygonConstructionData>) => {
+    setPolygonData(data);
+    localStorage.setItem('polygonData', JSON.stringify(data));
+  };
+  
+  // load the polygon data
+  useEffect(() => {
+    dispatchPolygonDatas({ type: 'set', payload: loadPolygonDatas() });
+    setPolygonData(loadPolygonData());
+    setLoaded(true);
+  }, []);
+
   // save the polygon data
   useEffect(() => {
-    localStorage.setItem('polygonData', JSON.stringify(polygonData));
+    if (loaded)
+      localStorage.setItem('polygonData', JSON.stringify(polygonData));
   }, [polygonData]);
 
   return (
@@ -69,11 +83,11 @@ export default function Home() {
           <Grid container>
             <Grid item xs={6} className="bg-gray-200" padding="normal">
               <Canvas polygonDatas={drawingDatas} />
-              <PolygonInfoPanel data={polygonData} setData={setPolygonData} />
+              <PolygonInfoPanel data={polygonData} setData={savePolygonDataWithSave} />
             </Grid>
 
             <Grid item xs={6} className="bg-gray-200">
-              <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={setPolygonData} />
+              <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={savePolygonDataWithSave} />
             </Grid>
 
           </Grid>

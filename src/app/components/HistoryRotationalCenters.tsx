@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, Dispatch } from 'react';
+import React, { useEffect, useContext, Dispatch, SetStateAction } from 'react';
 import { Container, Button, Card, CardHeader, CardActions, ToggleButton, Switch, FormControlLabel, Typography } from '@mui/material';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
@@ -16,7 +16,7 @@ import { HistoricalPolygonConstructionDataInfo } from './HistoricalPolygonConstr
 
 
 
-export default function HistoryRotationalCenters(props: { currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<PolygonConstructionData>; }) {
+export default function HistoryRotationalCenters(props: { currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<SetStateAction<PolygonConstructionData>>; }) {
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 
