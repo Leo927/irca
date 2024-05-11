@@ -25,7 +25,7 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                 </Tooltip>
             }></CardHeader>
             <CardContent>
-                HandsOffDistance {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance().toFixed(2)}
+                换手距离 {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance().toFixed(2)}
             </CardContent>
             <CardActions>
                 <Tooltip title="加载这组数据到编辑器中" placement="top">
