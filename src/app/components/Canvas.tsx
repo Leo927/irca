@@ -14,6 +14,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   // update the canvas when the polygon changes
   useEffect(() => {
+
     const ctx = new fabric.Canvas("myCanvas", {
       height: 400,
       width: 800,
@@ -21,6 +22,18 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
     });
     ctx.relativePan(new fabric.Point(200, 200));
     setCtx(ctx);
+    
+    ctx.on('mouse:wheel', function (opt) {
+      var delta = opt.e.deltaY;
+      var zoom = ctx.getZoom();
+      zoom *= 0.999 ** delta;
+      if (zoom > 20) zoom = 20;
+      if (zoom < 0.01) zoom = 0.01;
+      ctx.zoomToPoint(new fabric.Point(opt.e.offsetX, opt.e.offsetY), zoom);
+      opt.e.preventDefault();
+      opt.e.stopPropagation();
+    });
+
     return () => {
       ctx.dispose();
     };
