@@ -132,11 +132,6 @@ export default function Home() {
                 <UploadFileOutlined />
               </IconButton>
             </Tooltip>
-            <Tooltip title="使用说明">
-              <IconButton onClick={() => setSettingOpen(true)}>
-                <HelpCenterOutlinedIcon />
-              </IconButton>
-            </Tooltip>
           </Box>
           <Grid container>
             <Grid item xs={6} className="bg-gray-200" padding="normal">
