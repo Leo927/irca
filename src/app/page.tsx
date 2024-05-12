@@ -60,6 +60,45 @@ export default function Home() {
     localStorage.setItem('polygonData', JSON.stringify(data));
   };
 
+  function dumpData() {
+    const data = { polygonDatas, polygonData };
+    const jsonData = JSON.stringify(data);
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    const datetime = new Date().toISOString().replace(/[-:.]/g, '');
+    link.download = `四连杆分析数据_${datetime}.json`;
+    link.click();
+  }
+
+  function loadData() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.json';
+    fileInput.onchange = (event) => {
+      if (event === null || event.currentTarget === null) return;
+      const target = event.target as HTMLInputElement;
+      if (target.files === null) return;
+      const file = target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          if (e.target === null) return;
+          const jsonData = e.target.result as string;
+          const data = JSON.parse(jsonData);
+          const { polygonDatas, polygonData } = data;
+          dispatchPolygonDatas({ type: 'set', payload: polygonDatas.map(HistoricalPolygonData.fromJSON) });
+          setPolygonData(PolygonConstructionData.fromJSON(polygonData));
+        } catch (error) {
+          console.error('Error loading data:', error);
+        }
+      };
+      reader.readAsText(file);
+    };
+    fileInput.click();
+  }
+
   // load the polygon data
   useEffect(() => {
     dispatchPolygonDatas({ type: 'set', payload: loadPolygonDatas() });
@@ -84,12 +123,12 @@ export default function Home() {
               </IconButton>
             </Tooltip>
             <Tooltip title="导出数据">
-              <IconButton onClick={() => setSettingOpen(true)}>
+              <IconButton onClick={dumpData}>
                 <SaveAltOutlinedIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="导入数据">
-              <IconButton onClick={() => setSettingOpen(true)}>
+              <IconButton onClick={loadData}>
                 <UploadFileOutlined />
               </IconButton>
             </Tooltip>
@@ -124,11 +163,10 @@ export default function Home() {
             </Box>
           </Modal>
 
-          
 
         </main >
       </PolygonDatasDispatchContext.Provider>
     </PolygonDatasContext.Provider>
   );
 
-}
+};
