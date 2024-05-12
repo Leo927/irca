@@ -75,7 +75,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
 
     constructor() {
         super();
-        this.index = 0;
+        this.index = -1;
         this.show = false;
         this.color = 'black';
         this.name = '';
