@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "四连杆机构仿真",
-  description: "这是一个模拟四连杆机构瞬时转动中心的网页应用",
+  title: "四连杆机构瞬时转动中心计算器",
+  description: "这是一个计算四连杆机构瞬时转动中心的网页应用",
 };
 
 export default function RootLayout({
