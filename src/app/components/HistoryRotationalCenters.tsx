@@ -16,7 +16,7 @@ import { HistoricalPolygonConstructionDataInfo } from './HistoricalPolygonConstr
 
 
 
-export default function HistoryRotationalCenters(props: { currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<SetStateAction<PolygonConstructionData>>; }) {
+export default function HistoryRotationalCenters(props: { currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<SetStateAction<HistoricalPolygonData>>; }) {
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 

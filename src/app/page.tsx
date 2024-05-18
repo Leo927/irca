@@ -26,7 +26,7 @@ function loadPolygonDatas() {
 function loadPolygonData() {
   let value = window?.localStorage.getItem('polygonData');
   if (value === null || value === undefined) {
-    let data = new PolygonConstructionData();
+    let data = new HistoricalPolygonData();
     data.edgeLengths = [60, 100, 120, 100];
     data.edge0Angle = 0;
     data.angleBetweenFirstAndLastEdge = 80;
@@ -34,9 +34,9 @@ function loadPolygonData() {
     return data;
   } else {
     try {
-      return PolygonConstructionData.fromJSON(JSON.parse(value));
+      return HistoricalPolygonData.fromJSON(JSON.parse(value));
     } catch (error) {
-      return new PolygonConstructionData();
+      return new HistoricalPolygonData();
     }
   }
 }
@@ -44,7 +44,7 @@ function loadPolygonData() {
 
 export default function Home() {
   const [loaded, setLoaded] = useState<boolean>(false);
-  const [polygonData, setPolygonData] = useState<PolygonConstructionData>(new PolygonConstructionData());
+  const [polygonData, setPolygonData] = useState<HistoricalPolygonData>(new HistoricalPolygonData());
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, []);
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
@@ -55,7 +55,7 @@ export default function Home() {
     setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon.withColor('black')]);
   }, [polygonDatas, polygonData]);
 
-  const savePolygonDataWithSave = (data: SetStateAction<PolygonConstructionData>) => {
+  const savePolygonDataWithSave = (data: SetStateAction<HistoricalPolygonData>) => {
     setPolygonData(data);
     localStorage.setItem('polygonData', JSON.stringify(data));
   };
@@ -89,7 +89,7 @@ export default function Home() {
           const data = JSON.parse(jsonData);
           const { polygonDatas, polygonData } = data;
           dispatchPolygonDatas({ type: 'set', payload: polygonDatas.map(HistoricalPolygonData.fromJSON) });
-          setPolygonData(PolygonConstructionData.fromJSON(polygonData));
+          setPolygonData(HistoricalPolygonData.fromJSON(polygonData));
         } catch (error) {
           console.error('Error loading data:', error);
         }

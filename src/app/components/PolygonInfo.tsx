@@ -14,8 +14,8 @@ import Modal from "@mui/material/Modal";
 
 
 export default function PolygonInfoPanel(props: {
-    data: PolygonConstructionData,
-    setData: Dispatch<SetStateAction<PolygonConstructionData>>,
+    data: HistoricalPolygonData,
+    setData: Dispatch<SetStateAction<HistoricalPolygonData>>,
 }) {
     const setPolygonDatas = useContext(PolygonDatasDispatchContext);
     const [error, setError] = useState(false);
@@ -57,7 +57,7 @@ export default function PolygonInfoPanel(props: {
                                     props.setData(currentData => {
                                         console.debug('updating edgeLengths');
                                         let newEdges = currentData.edgeLengths.map((value, i) => i === index ? parseFloat(e.target.value) : value);
-                                        let newData = PolygonConstructionData.fromJSON(currentData);
+                                        let newData = HistoricalPolygonData.fromJSON(currentData);
                                         newData.edgeLengths = newEdges;
                                         return newData;
                                     });
@@ -73,7 +73,7 @@ export default function PolygonInfoPanel(props: {
                             value={props.data.angleBetweenFirstAndLastEdge}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating angleBetweenFirstAndLastEdge');
-                                let newData = PolygonConstructionData.fromJSON(currentData);
+                                let newData = HistoricalPolygonData.fromJSON(currentData);
                                 newData.angleBetweenFirstAndLastEdge = parseFloat(e.target.value);
                                 return newData;
                             })} />
@@ -86,7 +86,7 @@ export default function PolygonInfoPanel(props: {
                             value={props.data.edge0Angle}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating edge0Angle');
-                                let newData = PolygonConstructionData.fromJSON(currentData);
+                                let newData = HistoricalPolygonData.fromJSON(currentData);
                                 newData.edge0Angle = parseFloat(e.target.value);
                                 return newData;
                             })} />

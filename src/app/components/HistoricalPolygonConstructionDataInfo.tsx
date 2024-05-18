@@ -13,7 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 
 const COLORS = [{ name: "黑色", value: "black" }, { name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
-export function HistoricalPolygonConstructionDataInfo(props: { polygonData: HistoricalPolygonData, currentPolygonData: PolygonConstructionData, setCurrentPolygonData: Dispatch<PolygonConstructionData>; }) {
+export function HistoricalPolygonConstructionDataInfo(props: { polygonData: HistoricalPolygonData, currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<HistoricalPolygonData>; }) {
     const [showRename, setShowRename] = React.useState(false);
     const onClickName = () => {
         setShowRename(true);
