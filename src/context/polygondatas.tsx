@@ -24,10 +24,6 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
 
             const newItem = HistoricalPolygonData.fromJSON(action.payload).withIndex(state.reduce((max, data) => Math.max(max, data.index), -1) + 1);
-            if (action.payload instanceof PolygonConstructionData) {
-                newItem.color = 'black';
-                newItem.name = "未命名";
-            }
             var newValue = [...state, newItem];
             savePolygonDatas(newValue);
             return newValue;
