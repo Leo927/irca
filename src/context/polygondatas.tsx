@@ -96,7 +96,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         historicalPolygonData.show = data.show;
         historicalPolygonData.color = data.color;
         historicalPolygonData.name = data.name;
-        historicalPolygonData.uid = data.uid;
+        historicalPolygonData.uid = data.uid && typeof data.uid === 'string' ? data.uid : uuid();
         return historicalPolygonData;
     }
 
