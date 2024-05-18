@@ -80,7 +80,7 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         super();
         this.show = false;
         this.color = 'black';
-        this.name = '';
+        this.name = '新建四连杆';
         this.uid = uuid();
     }
 

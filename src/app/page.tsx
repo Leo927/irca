@@ -16,7 +16,6 @@ import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, 
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
 import { UploadFileOutlined } from "@mui/icons-material";
-import HelpCenterOutlinedIcon from '@mui/icons-material/HelpCenterOutlined';
 
 function loadPolygonDatas() {
   const value = (JSON.parse(typeof window !== "undefined" ? window.localStorage.getItem('polygonDatas') || '[]' : "[]") as Object[]).map(HistoricalPolygonData.fromJSON);
@@ -48,12 +47,17 @@ export default function Home() {
   const [settingOpen, setSettingOpen] = useState<boolean>(false);
   const [polygonDatas, dispatchPolygonDatas] = useReducer(polygonDatasReducer, []);
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
+  const [showCurrent, setShowCurrent] = useState<boolean>(false);
 
   useEffect(() => {
     let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true);
     console.debug('updating drawing datas', currentPolygon, polygonData);
-    setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon.withColor('black')]);
-  }, [polygonDatas, polygonData]);
+    let newDraws = polygonDatas.filter((data) => data.show);
+    if (showCurrent) {
+      newDraws.push(currentPolygon);
+    }
+    setDrawingDatas(newDraws);
+  }, [polygonDatas, polygonData, showCurrent]);
 
   const savePolygonDataWithSave = (data: SetStateAction<HistoricalPolygonData>) => {
     setPolygonData(data);
@@ -136,11 +140,14 @@ export default function Home() {
           <Grid container>
             <Grid item xs={6} className="bg-gray-200" padding="normal">
               <Canvas polygonDatas={drawingDatas} />
-              <PolygonInfoPanel data={polygonData} setData={savePolygonDataWithSave} />
+
+              {showCurrent && (
+                <PolygonInfoPanel data={polygonData} setData={savePolygonDataWithSave} setShowCurrent={setShowCurrent} />
+              )}
             </Grid>
 
             <Grid item xs={6} className="bg-gray-200">
-              <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={savePolygonDataWithSave} />
+              <HistoryRotationalCenters currentPolygonData={polygonData} setCurrentPolygonData={savePolygonDataWithSave} setShowCurrent={setShowCurrent} />
             </Grid>
 
           </Grid>

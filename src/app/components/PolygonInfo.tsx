@@ -3,7 +3,7 @@ import { SetStateAction, useState, useContext } from "react";
 
 import { Dispatch } from "react";
 import { PolygonConstructionData } from "../logics/polygon-constructor";
-import { Button, IconButton } from "@mui/material";
+import { Button, IconButton, Tooltip } from "@mui/material";
 import { HistoricalPolygonData, PolygonDatasDispatchContext } from "@/context/polygondatas";
 import { translateEdgeName } from "@/app/logics/helpers";
 import FormControl from "@mui/material/FormControl";
@@ -18,6 +18,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 export default function PolygonInfoPanel(props: {
     data: HistoricalPolygonData,
     setData: Dispatch<SetStateAction<HistoricalPolygonData>>,
+    setShowCurrent: Dispatch<SetStateAction<boolean>>;
 }) {
     const setPolygonDatas = useContext(PolygonDatasDispatchContext);
     const [error, setError] = useState(false);
@@ -26,8 +27,15 @@ export default function PolygonInfoPanel(props: {
     function onSaveData() {
         const polygonData = props.data;
         let newItem = HistoricalPolygonData.fromJSON(polygonData);
+        newItem.show = true;
         setPolygonDatas({ type: 'add', payload: newItem });
+        props.setShowCurrent(false);
         console.debug(`save button clicked`, polygonData);
+    }
+
+    function onCancel() {
+        props.setShowCurrent(false);
+        setPolygonDatas({ type: "show", payload: props.data });
     }
 
     return (
@@ -47,14 +55,18 @@ export default function PolygonInfoPanel(props: {
                             })} />
                     </Grid>
                     <Grid item xs={1}>
-                        <IconButton onClick={onSaveData}>
-                            <SaveOutlinedIcon />
-                        </IconButton>
+                        <Tooltip title="保存">
+                            <IconButton onClick={onSaveData}>
+                                <SaveOutlinedIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Grid>
                     <Grid item xs={1}>
-                        <IconButton>
-                            <ClearOutlinedIcon />
-                        </IconButton>
+                        <Tooltip title="取消">
+                            <IconButton onClick={onCancel}>
+                                <ClearOutlinedIcon />
+                            </IconButton>
+                        </Tooltip>
                     </Grid>
                     {props.data.edgeLengths.map((edge, index) => (
                         <Grid item xs={3}

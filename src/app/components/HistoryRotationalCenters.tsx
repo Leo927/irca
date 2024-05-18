@@ -1,22 +1,20 @@
-import React, { useEffect, useContext, Dispatch, SetStateAction } from 'react';
-import { Container, Button, Card, CardHeader, CardActions, ToggleButton, Switch, FormControlLabel, Typography } from '@mui/material';
+import React, { useContext, Dispatch, SetStateAction } from 'react';
+import { IconButton } from '@mui/material';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import { PolygonConstructionData } from '../logics/polygon-constructor';
 import { HistoricalPolygonConstructionDataInfo } from './HistoricalPolygonConstructionDataInfo';
+import AddIcon from '@mui/icons-material/Add';
+import { ClassNames } from '@emotion/react';
 
 
 
 
 
-
-export default function HistoryRotationalCenters(props: { currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<SetStateAction<HistoricalPolygonData>>; }) {
+export default function HistoryRotationalCenters(props: {
+    currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<SetStateAction<HistoricalPolygonData>>,
+    setShowCurrent: Dispatch<SetStateAction<boolean>>;
+}) {
     const polygonDatas = useContext(PolygonDatasContext);
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 
@@ -24,9 +22,21 @@ export default function HistoryRotationalCenters(props: { currentPolygonData: Hi
         <Grid container spacing={2}>
             {polygonDatas.map((polygonData, index) => (
                 <Grid item xs={6} key={index} >
-                    <HistoricalPolygonConstructionDataInfo polygonData={polygonData} currentPolygonData={props.currentPolygonData} setCurrentPolygonData={props.setCurrentPolygonData} />
+                    <HistoricalPolygonConstructionDataInfo polygonData={polygonData} currentPolygonData={props.currentPolygonData}
+                        setCurrentPolygonData={props.setCurrentPolygonData}
+                        setShowCurrent={props.setShowCurrent} />
                 </Grid>
             ))}
+            <Grid item xs={6}>
+                <IconButton onClick={() => {
+                    const newItem = new HistoricalPolygonData();
+                    props.setShowCurrent(true);
+                    dispatchPolygonDatas({ type: 'add', payload: newItem });
+                    props.setCurrentPolygonData(newItem);
+                }}>
+                    <AddIcon fontSize='large'/>
+                </IconButton>
+            </Grid>
         </Grid>
     );
 }
