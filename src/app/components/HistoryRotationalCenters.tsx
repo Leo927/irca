@@ -1,10 +1,10 @@
 import React, { useContext, Dispatch, SetStateAction } from 'react';
-import { IconButton } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
 import { HistoricalPolygonData } from '@/context/polygondatas';
 import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
 import Grid from '@mui/material/Grid';
 import { HistoricalPolygonConstructionDataInfo } from './HistoricalPolygonConstructionDataInfo';
-import AddIcon from '@mui/icons-material/Add';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { ClassNames } from '@emotion/react';
 
 
@@ -28,16 +28,23 @@ export default function HistoryRotationalCenters(props: {
                 </Grid>
             ))}
             <Grid item xs={6}>
-                <IconButton onClick={() => {
-                    const newItem = new HistoricalPolygonData();
-                    props.setShowCurrent(true);
-                    dispatchPolygonDatas({ type: 'add', payload: newItem });
-                    props.setCurrentPolygonData(newItem);
-                }}>
-                    <AddIcon fontSize='large'/>
-                </IconButton>
+                <Tooltip title="新建四连杆">
+                    <Button onClick={() => {
+                        const newItem = new HistoricalPolygonData();
+                        props.setShowCurrent(true);
+                        dispatchPolygonDatas({ type: 'add', payload: newItem });
+                        props.setCurrentPolygonData(newItem);
+                    }}
+                        size='large'
+                        variant='outlined'
+                        style={{ height: '100%', width: '100%', minHeight: '150px', fontSize: '2.5em' }}
+                        startIcon={< AddCircleOutlineIcon fontSize='large' />}
+                        fullWidth> {/* Add fullWidth prop */}
+                        新建四连杆
+                    </Button>
+                </Tooltip>
             </Grid>
-        </Grid>
+        </Grid >
     );
 }
 
