@@ -3,7 +3,7 @@ import { SetStateAction, useState, useContext } from "react";
 
 import { Dispatch } from "react";
 import { PolygonConstructionData } from "../logics/polygon-constructor";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { HistoricalPolygonData, PolygonDatasDispatchContext } from "@/context/polygondatas";
 import { translateEdgeName } from "@/app/logics/helpers";
 import FormControl from "@mui/material/FormControl";
@@ -11,6 +11,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
 export default function PolygonInfoPanel(props: {
@@ -20,32 +22,40 @@ export default function PolygonInfoPanel(props: {
     const setPolygonDatas = useContext(PolygonDatasDispatchContext);
     const [error, setError] = useState(false);
     const [errorDialogMessage, setErrorDialogMessage] = useState('' as string);
-    const [showRename, setShowRename] = useState(false);
-    const [name, setName] = useState("");
 
     function onSaveData() {
         const polygonData = props.data;
         let newItem = HistoricalPolygonData.fromJSON(polygonData);
-        newItem.color = "black";
-        newItem.name = name;
         setPolygonDatas({ type: 'add', payload: newItem });
-        setShowRename(false);
         console.debug(`save button clicked`, polygonData);
-    }
-
-    function onSaveButtonPressed() {
-        setShowRename(true);
-        setName("未命名");
-    }
-
-    function onNameChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setName(event.target.value);
     }
 
     return (
         <Box>
             <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid container spacing={1}>
+                    <Grid item xs={10}>
+                        <TextField
+                            label="名称"
+                            className="w-full"
+                            value={props.data.name}
+                            onChange={(e) => props.setData(currentData => {
+                                console.debug('updating name');
+                                let newData = HistoricalPolygonData.fromJSON(currentData);
+                                newData.name = e.target.value;
+                                return newData;
+                            })} />
+                    </Grid>
+                    <Grid item xs={1}>
+                        <IconButton onClick={onSaveData}>
+                            <SaveOutlinedIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <IconButton>
+                            <ClearOutlinedIcon />
+                        </IconButton>
+                    </Grid>
                     {props.data.edgeLengths.map((edge, index) => (
                         <Grid item xs={3}
                             key={index}>
@@ -91,30 +101,9 @@ export default function PolygonInfoPanel(props: {
                                 return newData;
                             })} />
                     </Grid>
-                    <Grid item xs={6}>
-                        <Button className="w-full" onClick={onSaveButtonPressed}>保存</Button>
-                    </Grid>
                     <FormHelperText>{errorDialogMessage}</FormHelperText>
                 </Grid>
             </FormControl >
-            <Modal
-                open={showRename}
-                onClose={() => setShowRename(false)}
-                aria-labelledby="parent-modal-title"
-                aria-describedby="parent-modal-description"
-            >
-                <Box sx={{ ...style, width: 400 }} >
-                    <TextField className='w-full' value={name} onChange={onNameChange} />
-                    <Grid container>
-                        <Grid item xs={6}>
-                            <Button className='w-full' variant="outlined" color="error" onClick={() => setShowRename(false)}>取消</Button>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Button className='w-full' variant="outlined" color="success" onClick={onSaveData}>确认</Button>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Modal>
         </Box>
     );
 }

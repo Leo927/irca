@@ -2,6 +2,9 @@ import { createContext, Dispatch } from "react";
 import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
 import { fromJSON } from "postcss";
 import { Vector2 } from "../app/logics/vector2";
+import React from "react";
+import ReactDOM from "react-dom";
+import { v4 as uuid } from 'uuid';
 
 export const PolygonDatasContext = createContext<HistoricalPolygonData[]>([]);
 export const PolygonDatasDispatchContext = createContext<Dispatch<{
@@ -22,19 +25,23 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
                 throw new PayloadValueError(`Invalid payload: ${JSON.stringify(action.payload)}`);
             }
             console.log(`Adding polygon data: ${JSON.stringify(action.payload)}`);
-
-            const newItem = HistoricalPolygonData.fromJSON(action.payload).withIndex(state.reduce((max, data) => Math.max(max, data.index), -1) + 1);
+            if (state.find((data) => data.uid === action.payload.uid) !== undefined) {
+                newValue = state.map((data) => data.uid === action.payload.uid ? action.payload : data);
+                savePolygonDatas(newValue);
+                return newValue;
+            }
+            const newItem = HistoricalPolygonData.fromJSON(action.payload);
             var newValue = [...state, newItem];
             savePolygonDatas(newValue);
             return newValue;
         case 'remove':
             console.log(`Removing polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.filter((data) => data.index !== action.payload.index);
+            newValue = state.filter((data) => data.uid !== action.payload.uid);
             savePolygonDatas(newValue);
             return newValue;
         case 'update':
             console.log(`Updating polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.map((data, index) => index === action.payload.index ? action.payload : data);
+            newValue = state.map((data) => data.uid === action.payload.uid ? action.payload : data);
             savePolygonDatas(newValue);
             return newValue;
         case 'clear':
@@ -47,12 +54,12 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
             return action.payload;
         case 'show':
             console.log(`Showing polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.map((data) => data.index === action.payload.index ? data.withShow(true) : data);
+            newValue = state.map((data) => data.uid === action.payload.uid ? data.withShow(true) : data);
             savePolygonDatas(newValue);
             return newValue;
         case 'hide':
             console.log(`Hiding polygon data: ${JSON.stringify(action.payload)}`);
-            newValue = state.map((data) => data.index === action.payload.index ? data.withShow(false) : data);
+            newValue = state.map((data) => data.uid === action.payload.uid ? data.withShow(false) : data);
             savePolygonDatas(newValue);
             return newValue;
         default:
@@ -63,18 +70,18 @@ export function polygonDatasReducer(state: HistoricalPolygonData[], action: { ty
 
 
 export class HistoricalPolygonData extends PolygonConstructionData {
-    index: number;
     show: boolean;
     color: string;
     name: string;
+    uid: string;
 
 
     constructor() {
         super();
-        this.index = -1;
         this.show = false;
         this.color = 'black';
         this.name = '';
+        this.uid = uuid();
     }
 
     static fromJSON(data: any): HistoricalPolygonData {
@@ -86,22 +93,16 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         historicalPolygonData.edge0Angle = data.edge0Angle;
         historicalPolygonData.angleBetweenFirstAndLastEdge = data.angleBetweenFirstAndLastEdge;
         historicalPolygonData.firstVertex = new Vector2(data.firstVertex.x, data.firstVertex.y);
-        historicalPolygonData.index = data.index;
         historicalPolygonData.show = data.show;
         historicalPolygonData.color = data.color;
         historicalPolygonData.name = data.name;
+        historicalPolygonData.uid = data.uid;
         return historicalPolygonData;
     }
 
     withShow(show: boolean): HistoricalPolygonData {
         var copy = HistoricalPolygonData.fromJSON(this);
         copy.show = show;
-        return copy;
-    }
-
-    withIndex(index: number): HistoricalPolygonData {
-        var copy = HistoricalPolygonData.fromJSON(this);
-        copy.index = index;
         return copy;
     }
 

@@ -50,7 +50,7 @@ export default function Home() {
   const [drawingDatas, setDrawingDatas] = useState<HistoricalPolygonData[]>([]);
 
   useEffect(() => {
-    let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true).withIndex(-1);
+    let currentPolygon = HistoricalPolygonData.fromJSON(polygonData).withShow(true);
     console.debug('updating drawing datas', currentPolygon, polygonData);
     setDrawingDatas([...polygonDatas.filter((data) => data.show), currentPolygon.withColor('black')]);
   }, [polygonDatas, polygonData]);

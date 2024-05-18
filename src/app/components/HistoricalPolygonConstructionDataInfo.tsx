@@ -15,8 +15,11 @@ import EditIcon from '@mui/icons-material/Edit';
 const COLORS = [{ name: "黑色", value: "black" }, { name: "红色", value: "red" }, { name: "绿色", value: "green" }, { name: "蓝色", value: "blue" }, { name: "黄色", value: "yellow" }];
 export function HistoricalPolygonConstructionDataInfo(props: { polygonData: HistoricalPolygonData, currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<HistoricalPolygonData>; }) {
     const [showRename, setShowRename] = React.useState(false);
-    const onClickName = () => {
-        setShowRename(true);
+    const onEdit = () => {
+        props.setCurrentPolygonData(props.polygonData);
+        props.polygonData.show = false;
+        dispatchPolygonDatas({ type: 'update', payload: props.polygonData });
+
     };
     const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         props.polygonData.name = event.target.value;
@@ -25,11 +28,11 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
     return (
         <Box>
-            <Card key={props.polygonData.index} className='bg-gray-300'>
+            <Card key={props.polygonData.uid} className='bg-gray-300'>
                 <CardHeader title={`${props.polygonData.name}`} action={
                     <Grid>
                         <Tooltip title="修改" placement="top">
-                            <IconButton onClick={onClickName}>
+                            <IconButton onClick={onEdit}>
                                 <EditIcon />
                             </IconButton>
                         </Tooltip>
@@ -44,12 +47,6 @@ export function HistoricalPolygonConstructionDataInfo(props: { polygonData: Hist
                     换手距离 {new PolygonComparator(props.currentPolygonData, props.polygonData).getHandsOffDistance().toFixed(2)}
                 </CardContent>
                 <CardActions>
-                    <Tooltip title="加载这组数据到编辑器中" placement="top">
-                        <Button className='bg-gray-100' sx={{ boxShadow: 3 }} onClick={() => {
-                            props.setCurrentPolygonData(props.polygonData);
-                        }}>使用</Button>
-                    </Tooltip>
-
                     <FormControl>
                         <InputLabel id="demo-simple-select-autowidth-label">颜色</InputLabel>
                         <Select
