@@ -20,7 +20,8 @@
     "npm": "^10.7.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-svg": "^16.1.33"
+    "react-svg": "^16.1.33",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/fabric": "^5.3.7",
