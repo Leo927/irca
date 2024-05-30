@@ -74,6 +74,8 @@ export class HistoricalPolygonData extends PolygonConstructionData {
     color: string;
     name: string;
     uid: string;
+    startAngle: number = 0;
+    endAngle: number = 359;
 
 
     constructor() {
@@ -97,6 +99,8 @@ export class HistoricalPolygonData extends PolygonConstructionData {
         historicalPolygonData.color = data.color;
         historicalPolygonData.name = data.name;
         historicalPolygonData.uid = data.uid && typeof data.uid === 'string' ? data.uid : uuid();
+        historicalPolygonData.startAngle = data.startAngle || 0;
+        historicalPolygonData.endAngle = data.endAngle || 359;
         return historicalPolygonData;
     }
 

@@ -7,15 +7,27 @@ import { RotationCenterFinder } from "./rotation-center-finder";
 export class RotationalCentersAnalyzer {
     INTERVAL = 1;
     data: PolygonConstructionData;
+    startAngle = 0;
+    endAngle = 359;
 
     constructor(data: PolygonConstructionData) {
         this.data = data;
     }
 
+    setStartAngle(startAngle: number): RotationalCentersAnalyzer {
+        this.startAngle = startAngle;
+        return this;
+    }
+
+    setEndAngle(endAngle: number): RotationalCentersAnalyzer {
+        this.endAngle = endAngle;
+        return this;
+    }
+
     findRotationalCenters(): Vector2[] {
         // for 0 degree to 359 degree, find the rotational center
         const rotationalCenters: Vector2[] = [];
-        for (let i = 0; i < 360; i+=this.INTERVAL) {
+        for (let i = this.startAngle; i <= this.endAngle; i += this.INTERVAL) {
             const polygon = new PolygonConstructor(this.data.withAngleBetweenFirstAndLastEdgeInDegree(i))
                 .constructPolygon();
             try {

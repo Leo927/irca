@@ -113,6 +113,32 @@ export default function PolygonInfoPanel(props: {
                                 return newData;
                             })} />
                     </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            className="w-full"
+                            type="number"
+                            label="起始角度"
+                            value={props.data.startAngle}
+                            onChange={(e) => props.setData(currentData => {
+                                console.debug('updating startAngle');
+                                let newData = HistoricalPolygonData.fromJSON(currentData);
+                                newData.startAngle = parseFloat(e.target.value);
+                                return newData;
+                            })} />
+                    </Grid>
+                    <Grid item xs={3}>
+                        <TextField
+                            className="w-full"
+                            type="number"
+                            label="终止角度"
+                            value={props.data.endAngle}
+                            onChange={(e) => props.setData(currentData => {
+                                console.debug('updating edge0Angle');
+                                let newData = HistoricalPolygonData.fromJSON(currentData);
+                                newData.endAngle = parseFloat(e.target.value);
+                                return newData;
+                            })} />
+                    </Grid>
                     <FormHelperText>{errorDialogMessage}</FormHelperText>
                 </Grid>
             </FormControl >
