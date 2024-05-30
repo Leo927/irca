@@ -11,3 +11,7 @@ npm run dev
 
 # 示例
 [vercel](https://irca-pi.vercel.app/)
+
+# 打包
+npm run build
+build.bat
