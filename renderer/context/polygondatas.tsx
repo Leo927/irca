@@ -1,5 +1,5 @@
 import { createContext, Dispatch } from "react";
-import { PolygonConstructionData } from "@/app/logics/polygon-constructor";
+import { PolygonConstructionData } from "../app/logics/polygon-constructor";
 import { fromJSON } from "postcss";
 import { Vector2 } from "../app/logics/vector2";
 import React from "react";

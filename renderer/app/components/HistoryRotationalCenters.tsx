@@ -1,7 +1,7 @@
 import React, { useContext, Dispatch, SetStateAction } from 'react';
 import { Button, Tooltip } from '@mui/material';
-import { HistoricalPolygonData } from '@/context/polygondatas';
-import { PolygonDatasContext, PolygonDatasDispatchContext } from '@/context/polygondatas';
+import { HistoricalPolygonData } from '../../context/polygondatas';
+import { PolygonDatasContext, PolygonDatasDispatchContext } from '../../context/polygondatas';
 import Grid from '@mui/material/Grid';
 import { HistoricalPolygonConstructionDataInfo } from './HistoricalPolygonConstructionDataInfo';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';

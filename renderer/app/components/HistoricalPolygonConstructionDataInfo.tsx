@@ -1,7 +1,7 @@
 import React, { useContext, Dispatch, SetStateAction } from 'react';
 import { Button, Card, CardHeader, CardActions, Switch, Modal, CardContent, Tooltip, TextField, Box, Grid, CardActionArea } from '@mui/material';
-import { HistoricalPolygonData } from '@/context/polygondatas';
-import { PolygonDatasDispatchContext } from '@/context/polygondatas';
+import { HistoricalPolygonData } from '../../context/polygondatas';
+import { PolygonDatasDispatchContext } from '../../context/polygondatas';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';

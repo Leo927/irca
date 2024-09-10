@@ -1,13 +1,13 @@
 import { useRef } from "react";
 import { useEffect, useState } from "react";
-import { HistoricalPolygonData } from "@/context/polygondatas";
+import { HistoricalPolygonData } from "../../context/polygondatas";
 import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import * as fabric from 'fabric';
 import CenterFocusStrongOutlinedIcon from '@mui/icons-material/CenterFocusStrongOutlined';
 
-import PolygonDrawer from "@/app/logics/polygondrawer";
+import PolygonDrawer from "../../app/logics/polygondrawer";
 import { CenterFocusStrong, CenterFocusStrongOutlined } from "@mui/icons-material";
 
 export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }) {

@@ -1,10 +1,10 @@
 import * as fabric from 'fabric';
-import { HistoricalPolygonData } from '@/context/polygondatas';
-import { Line } from '@/app/logics/line';
-import { PolygonConstructor } from '@/app/logics/polygon-constructor';
-import { RotationalCentersAnalyzer } from '@/app/logics/rotation-center-arc';
-import { RotationCenterFinder } from '@/app/logics/rotation-center-finder';
-import { Polygon } from '@/app/logics/polygon';
+import { HistoricalPolygonData } from '../../context/polygondatas';
+import { Line } from '../../app/logics/line';
+import { PolygonConstructor } from './polygon-constructor';
+import { RotationalCentersAnalyzer } from '../../app/logics/rotation-center-arc';
+import { RotationCenterFinder } from '../../app/logics/rotation-center-finder';
+import { Polygon } from '../../app/logics/polygon';
 export default class PolygonDrawer {
     canvas: fabric.Canvas;
     constructionData: HistoricalPolygonData;

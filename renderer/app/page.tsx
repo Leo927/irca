@@ -2,17 +2,17 @@
 
 import { Dispatch, useEffect, useReducer, SetStateAction } from "react";
 import { useState } from "react";
-import { Vector2 } from '@/app/logics/vector2';
-import { PolygonConstructionData, PolygonConstructor } from '@/app/logics/polygon-constructor';
-import { Polygon } from "@/app/logics/polygon";
+import { Vector2 } from '../app/logics/vector2';
+import { PolygonConstructionData, PolygonConstructor } from '../app/logics/polygon-constructor';
+import { Polygon } from "../app/logics/polygon";
 import { Modal, TextField, Button, IconButton, Tooltip } from "@mui/material";
-import Settings from "@/app/settings/page";
+import Settings from "../app/settings/page";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import PolygonInfoPanel from "@/app/components/PolygonInfo";
-import Canvas from "@/app/components/Canvas";
+import PolygonInfoPanel from "../app/components/PolygonInfo";
+import Canvas from "../app/components/Canvas";
 import HistoryRotationalCenters from "./components/HistoryRotationalCenters";
-import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, HistoricalPolygonData } from '@/context/polygondatas';
+import { PolygonDatasContext, PolygonDatasDispatchContext, polygonDatasReducer, HistoricalPolygonData } from '../context/polygondatas';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import SaveAltOutlinedIcon from '@mui/icons-material/SaveAltOutlined';
 import { UploadFileOutlined } from "@mui/icons-material";

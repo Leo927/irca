@@ -1,5 +1,5 @@
-import { Vector2 } from '@/app/logics/vector2';
-import { Line } from '@/app/logics/line';
+import { Vector2 } from '../../app/logics/vector2';
+import { Line } from '../../app/logics/line';
 
 export class Polygon {
     vertices: Vector2[];
