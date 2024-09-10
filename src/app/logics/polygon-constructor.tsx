@@ -1,6 +1,16 @@
 import { Polygon } from "./polygon";
 import { Vector2 } from "./vector2";
 
+/**
+ * Draw a polygon like 
+ * D--------C
+ * |        |
+ * |        |
+ * A--------B
+ * they are ordered A,B,C,D
+ * And the edges are ordered AB, BC, CD, DA
+ */
+
 export class PolygonConstructor {
     /**
      * Calculates the position of all vertices of a 4 sided polygon
@@ -37,31 +47,56 @@ export class PolygonConstructor {
     }
 
     calculateForthVertex(): void {
-        if (this.vertices[0] === null) {
-            throw new Error("First vertex does not exist");
+        // we know |AD|, |DC|, and <ADC
+        // we also know xA, yA, xC, yC
+        // find D
+        let A = this.vertices[0];
+        let C = this.vertices[2];
+        if (A === null || C === null) {
+            throw new CircleNotIntersectException();
         }
+        let AD = this.data.edgeLengths[3];
+        let DC = this.data.edgeLengths[2];
+        let ADC = this.data.angleBetweenFirstAndLastEdge;
+        let AC = Math.sqrt(AD * AD + DC * DC - 2 * AD * DC * Math.cos(toRadians(ADC)));
+        // find the angle between AC and AD
+        let angleDAC = Math.acos((AC * AC + AD * AD - DC * DC) / (2 * AC * AD));
+        // rotate AC by angleDAC to get AD
+        let xAD = (C.x - A.x) * Math.cos(-angleDAC) - (C.y - A.y) * Math.sin(-angleDAC);
+        let yAD = (C.x - A.x) * Math.sin(-angleDAC) + (C.y - A.y) * Math.cos(-angleDAC);
+        let AdDirectionVectorLength = Math.sqrt(xAD * xAD + yAD * yAD);
+        let xD = A.x + xAD / AdDirectionVectorLength * AD;
+        let yD = A.y + yAD / AdDirectionVectorLength * AD;
+        let D = new Vector2(xD, yD);
+        this.vertices[3] = D;
 
-        let firstVertex = this.vertices[0];
-        let thirdVertex = new Vector2(firstVertex.x + this.data.edgeLengths[3] * Math.cos(toRadians(this.data.angleBetweenFirstAndLastEdge)),
-            firstVertex.y - this.data.edgeLengths[3] * Math.sin(toRadians(this.data.angleBetweenFirstAndLastEdge)));
-        this.vertices[3] = thirdVertex;
     }
 
     calculateThirdVertex(): void {
-        if (this.vertices[1] === null) {
-            throw new CircleNotIntersectException();
-        }
+        // we know |AD|, |DC|, and <ADC
+        // calculate length of AC: |AC| = sqrt(|AD|^2 + |DC|^2 - 2 * |AD| * |DC| * cos(<ADC))        
+        let AD = this.data.edgeLengths[3];
+        let DC = this.data.edgeLengths[2];
+        let ADC = this.data.angleBetweenFirstAndLastEdge;
+        let AC = Math.sqrt(AD * AD + DC * DC - 2 * AD * DC * Math.cos(toRadians(ADC)));
+        let BC = this.data.edgeLengths[1];
+        let B = this.vertices[1];
+        let A = this.vertices[0];
 
-        if (this.vertices[3] === null) {
+        if (A === null) {
             throw new CircleNotIntersectException();
         }
-        // given position of the second vertex and the length of the second edge. Also given the position of the forth vertex and the length of the third edge
-        // We can calculate the position of the third vertex by finding the intersection of two circles
-        let secondVertex = this.vertices[1];
-        let forthVertex = this.vertices[3];
-        let [intersection1, intersection2] = this.findCirclesIntersection(secondVertex, this.data.edgeLengths[1], forthVertex, this.data.edgeLengths[2]);
-        let thirdVertex = intersection1.x > intersection2.x ? intersection1 : intersection2;
-        this.vertices[2] = thirdVertex;
+        if (B === null) {
+            throw new CircleNotIntersectException();
+        }
+        // Find C by interecting BC and AC
+        let [intersection1, intersection2] = this.findCirclesIntersection(A, AC, B, BC);
+        // take the intersection with larger yvalue
+        let C = intersection1.y < intersection2.y ? intersection1 : intersection2;
+        this.vertices[2] = C;
+
+
+
     }
 
     findCirclesIntersection(
@@ -99,8 +134,8 @@ export class PolygonConstructor {
 
     constructPolygon(): Polygon {
         this.calculateSecondVertex();
-        this.calculateForthVertex();
         this.calculateThirdVertex();
+        this.calculateForthVertex();
         if (this.vertices[0] === null || this.vertices[1] === null || this.vertices[2] === null || this.vertices[3] === null) {
             throw new Error("One or more vertices are missing");
         }

@@ -91,7 +91,7 @@ export default function PolygonInfoPanel(props: {
                         <TextField
                             className="w-full"
                             type="number"
-                            label="下连杆与前连杆初始角度"
+                            label="前连杆与上连杆初始角度"
                             value={props.data.angleBetweenFirstAndLastEdge}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating angleBetweenFirstAndLastEdge');
