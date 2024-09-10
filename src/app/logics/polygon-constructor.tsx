@@ -59,9 +59,15 @@ export class PolygonConstructor {
         let DC = this.data.edgeLengths[2];
         let ADC = this.data.angleBetweenFirstAndLastEdge;
         let AC = Math.sqrt(AD * AD + DC * DC - 2 * AD * DC * Math.cos(toRadians(ADC)));
+
         // find the angle between AC and AD
         let angleDAC = Math.acos((AC * AC + AD * AD - DC * DC) / (2 * AC * AD));
-        // rotate AC by angleDAC to get AD
+        // if the angle between AC and AD is obtuse, then the angle between AC and AD is 180 - angleDAC
+        // if the angle between AC and AD is acute, then the angle between AC and AD is angleDAC
+        if (Math.sin(toRadians(ADC)) < 0) {
+            angleDAC = - angleDAC;
+        }
+        // rotate AC by angleDAC to get AD        
         let xAD = (C.x - A.x) * Math.cos(-angleDAC) - (C.y - A.y) * Math.sin(-angleDAC);
         let yAD = (C.x - A.x) * Math.sin(-angleDAC) + (C.y - A.y) * Math.cos(-angleDAC);
         let AdDirectionVectorLength = Math.sqrt(xAD * xAD + yAD * yAD);
@@ -92,7 +98,7 @@ export class PolygonConstructor {
         // Find C by interecting BC and AC
         let [intersection1, intersection2] = this.findCirclesIntersection(A, AC, B, BC);
         // take the intersection with larger yvalue
-        let C = intersection1.y < intersection2.y ? intersection1 : intersection2;
+        let C = intersection1;
         this.vertices[2] = C;
 
 
