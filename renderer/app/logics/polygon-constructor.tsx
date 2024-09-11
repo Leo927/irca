@@ -53,7 +53,7 @@ export class PolygonConstructor {
         let A = this.vertices[0];
         let C = this.vertices[2];
         if (A === null || C === null) {
-            throw new CircleNotIntersectException();
+            throw new Error("First or third vertex does not exist");
         }
         let AD = this.data.edgeLengths[3];
         let DC = this.data.edgeLengths[2];
@@ -89,11 +89,8 @@ export class PolygonConstructor {
         let B = this.vertices[1];
         let A = this.vertices[0];
 
-        if (A === null) {
-            throw new CircleNotIntersectException();
-        }
-        if (B === null) {
-            throw new CircleNotIntersectException();
+        if (A === null || B === null) {
+            throw new Error("First or second vertex does not exist");
         }
         // Find C by interecting BC and AC
         let [intersection1, intersection2] = this.findCirclesIntersection(A, AC, B, BC);
