@@ -1,4 +1,5 @@
 import { Vector2 } from "./vector2";
+const MAX_SAFE_INTEGER = 100000;
 export class Line {
     private startVector2: Vector2;
     private endVector2: Vector2;
@@ -76,6 +77,11 @@ export class Line {
             throw new EdgesParallelOrCoincidentError();
 
         }
+
+        if (Math.abs(x) > MAX_SAFE_INTEGER || Math.abs(y) > MAX_SAFE_INTEGER) {
+            throw new EdgesParallelOrCoincidentError();
+        }
+
         return new Vector2(x, y);
     }
 }

@@ -76,7 +76,7 @@ export default class PolygonDrawer {
                 });
                 this.group.add(circle);
             } catch (e) {
-                console.error("Error", e);
+                console.debug("Error", e);
             }
         }
     }
@@ -84,6 +84,7 @@ export default class PolygonDrawer {
     private drawRotationalCenters() {
         if (this.polygon.vertices.length === 4) {
             let centers = new RotationalCentersAnalyzer(this.constructionData).setStartAngle(this.constructionData.startAngle).setEndAngle(this.constructionData.endAngle).findRotationalCenters();
+            console.debug("Rotational centers", centers);
             let line = new fabric.Polyline(centers, {
                 transparentCorners: true,
                 stroke: this.constructionData.color,
