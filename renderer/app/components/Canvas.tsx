@@ -6,25 +6,29 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import * as fabric from 'fabric';
 import CenterFocusStrongOutlinedIcon from '@mui/icons-material/CenterFocusStrongOutlined';
+import { PolygonConstructor } from "../../app/logics/polygon-constructor";
 
 import PolygonDrawer from "../../app/logics/polygondrawer";
 import { CenterFocusStrong, CenterFocusStrongOutlined } from "@mui/icons-material";
+import { Vector2 } from "../logics/vector2";
 
 export default function Canvas(props: { className?: string, polygonDatas: HistoricalPolygonData[]; }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
 
+  const HEIGHT = 600;
+  const WIDTH = 800;
   // update the canvas when the polygon changes
   useEffect(() => {
     let dragging = false;
     let LastPoint = new fabric.Point(0, 0);
 
     const ctx = new fabric.Canvas("myCanvas", {
-      height: 600,
-      width: 800,
+      height: HEIGHT,
+      width: WIDTH,
       objectCaching: false,
     });
-    ctx.relativePan(new fabric.Point(400, 300));
+    ctx.absolutePan(new fabric.Point(-HEIGHT / 2, -WIDTH / 2));
     setCanvas(ctx);
 
     ctx.on('mouse:wheel', function (opt) {
@@ -64,7 +68,6 @@ export default function Canvas(props: { className?: string, polygonDatas: Histor
       ctx.dispose();
     };
   }, []);
-
   // draw the polygons
   useEffect(() => {
     if (canvas === null) return;
@@ -87,6 +90,15 @@ export default function Canvas(props: { className?: string, polygonDatas: Histor
     }
   };
 
+  const autoFocus = () => {
+    let vertices = props.polygonDatas.map(p => new PolygonConstructor(p).constructPolygon()).reduce((acc, curr) => acc.concat(curr.vertices), []);
+    // find the center of the polygon given the vertices
+    console.debug(vertices);
+    let center = vertices.reduce((acc, curr) => new Vector2(acc.x + curr.x, acc.y + curr.y), new Vector2(0, 0)).multiply(1 / props.polygonDatas.length / 4);
+    canvas.absolutePan(new fabric.Point(center.x - WIDTH / 2, center.y - HEIGHT / 2));
+    console.debug("auto focus" + center);
+  };
+
   return (
     <div style={{ position: "relative" }} className={props.className}>
       <canvas className="self-center h-full" id="myCanvas" ref={canvasRef}></canvas>
@@ -101,8 +113,8 @@ export default function Canvas(props: { className?: string, polygonDatas: Histor
             <RemoveIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="自动聚焦(未实装）">
-          <IconButton onClick={() => { }}>
+        <Tooltip title="自动聚焦">
+          <IconButton onClick={autoFocus}>
             <CenterFocusStrongOutlined />
           </IconButton>
         </Tooltip>
