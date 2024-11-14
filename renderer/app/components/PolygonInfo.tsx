@@ -127,7 +127,7 @@ export default function PolygonInfoPanel(props: {
                             label="终止角度"
                             value={props.data.endAngle}
                             onChange={(e) => props.setData(currentData => {
-                                console.debug('updating edge0Angle');
+                                console.debug('updating endAngle', e);
                                 let newData = HistoricalPolygonData.fromJSON(currentData);
                                 newData.endAngle = parseFloat(e.target.value);
                                 return newData;

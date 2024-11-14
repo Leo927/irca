@@ -27,7 +27,18 @@ export class RotationalCentersAnalyzer {
     findRotationalCenters(): Vector2[] {
         // for 0 degree to 359 degree, find the rotational center
         const rotationalCenters: Vector2[] = [];
-        for (let i = this.startAngle; i <= this.endAngle; i += this.INTERVAL) {
+        let startAngle, endAngle;
+        if (this.endAngle < this.startAngle) {
+            startAngle = this.endAngle;
+            endAngle = this.startAngle;
+        }
+        else {
+            startAngle = this.startAngle;
+            endAngle = this.endAngle;
+        }
+        console.info(`Finding rotational centers between ${startAngle} and ${endAngle}`);
+
+        for (let i = startAngle; i <= endAngle; i += this.INTERVAL) {
             const polygon = new PolygonConstructor(this.data.withAngleBetweenFirstAndLastEdgeInDegree(i))
                 .constructPolygon();
             try {
