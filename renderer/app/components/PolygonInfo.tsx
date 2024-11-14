@@ -18,6 +18,7 @@ import NumField from "./NumField";
 
 export default function PolygonInfoPanel(props: {
     className?: string,
+    style?: any,
     data: HistoricalPolygonData,
     setData: Dispatch<SetStateAction<HistoricalPolygonData>>,
     setShowCurrent: Dispatch<SetStateAction<boolean>>;
@@ -41,7 +42,7 @@ export default function PolygonInfoPanel(props: {
     }
 
     return (
-        <Box className={props.className}>
+        <Box className={props.className} style={props.style}>
             <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid container spacing={1}>
                     <Grid item xs={10}>

@@ -119,7 +119,7 @@ export default function Home() {
   return (
     <PolygonDatasContext.Provider value={polygonDatas}>
       <PolygonDatasDispatchContext.Provider value={dispatchPolygonDatas}>
-        <main className="w-full bg-gray-300 items-center mx-auto columns-1 p-6">
+        <main className="w-full bg-gray-300 items-center mx-auto columns-1 p-6" style={{ "minHeight": "100vh" }}>
           <Box className="items-end py-2" >
             <Tooltip title="设置">
               <IconButton onClick={() => setSettingOpen(true)}>
@@ -137,12 +137,12 @@ export default function Home() {
               </IconButton>
             </Tooltip>
           </Box>
-          <Grid container>
+          <Grid container style={{ "minHeight": "100vh" }}>
             <Grid item xs={6} className="bg-gray-200" padding="normal">
               <Canvas polygonDatas={drawingDatas} />
 
               {showCurrent && (
-                <PolygonInfoPanel data={polygonData} setData={savePolygonDataWithSave} setShowCurrent={setShowCurrent} />
+                <PolygonInfoPanel style={{ position: "absolute", width: "50%", left: 0, bottom: 0 }} data={polygonData} setData={savePolygonDataWithSave} setShowCurrent={setShowCurrent} />
               )}
             </Grid>
 
@@ -151,7 +151,6 @@ export default function Home() {
             </Grid>
 
           </Grid>
-
 
           <Modal
             open={settingOpen}
