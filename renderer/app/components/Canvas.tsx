@@ -89,7 +89,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
 
   return (
     <div style={{ position: "relative" }}>
-      <canvas className="self-center h-full" id="myCanvas" width="100%" height="100%" ref={canvasRef}></canvas>
+      <canvas className="self-center h-full" id="myCanvas" ref={canvasRef}></canvas>
       <div style={{ position: "absolute", top: 0, right: 0 }}>
         <Tooltip title="放大">
           <IconButton onClick={handleZoomIn}>
@@ -101,7 +101,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
             <RemoveIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="自动聚焦">
+        <Tooltip title="自动聚焦(未实装）">
           <IconButton onClick={() => { }}>
             <CenterFocusStrongOutlined />
           </IconButton>
