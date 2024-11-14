@@ -83,7 +83,9 @@ export default class PolygonDrawer {
 
     private drawRotationalCenters() {
         if (this.polygon.vertices.length === 4) {
-            let centers = new RotationalCentersAnalyzer(this.constructionData).setStartAngle(this.constructionData.startAngle).setEndAngle(this.constructionData.endAngle).findRotationalCenters();
+            let centers = new RotationalCentersAnalyzer(this.constructionData)
+                .setStartAngle(this.constructionData.startAngle - this.constructionData.angleBetweenFirstAndLastEdge)
+                .setEndAngle(this.constructionData.endAngle - this.constructionData.angleBetweenFirstAndLastEdge).findRotationalCenters();
             console.debug("Rotational centers", centers);
             let line = new fabric.Polyline(centers, {
                 transparentCorners: true,

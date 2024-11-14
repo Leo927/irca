@@ -91,7 +91,7 @@ export default function PolygonInfoPanel(props: {
                     ))}
                     <Grid item xs={3}>
                         <NumField
-                            label="前连杆与上连杆初始角度"
+                            label="前连杆与上连杆角度"
                             value={props.data.angleBetweenFirstAndLastEdge}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating angleBetweenFirstAndLastEdge');
@@ -113,7 +113,7 @@ export default function PolygonInfoPanel(props: {
                     </Grid>
                     <Grid item xs={3}>
                         <NumField
-                            label="起始角度"
+                            label="前连杆与上连杆初始角度"
                             value={props.data.startAngle}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating startAngle');
@@ -124,7 +124,7 @@ export default function PolygonInfoPanel(props: {
                     </Grid>
                     <Grid item xs={3}>
                         <NumField
-                            label="终止角度"
+                            label="前连杆与上连杆终止角度"
                             value={props.data.endAngle}
                             onChange={(e) => props.setData(currentData => {
                                 console.debug('updating endAngle', e);
