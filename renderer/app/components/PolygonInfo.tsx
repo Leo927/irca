@@ -16,6 +16,7 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 
 
 export default function PolygonInfoPanel(props: {
+    className?: string,
     data: HistoricalPolygonData,
     setData: Dispatch<SetStateAction<HistoricalPolygonData>>,
     setShowCurrent: Dispatch<SetStateAction<boolean>>;
@@ -39,7 +40,7 @@ export default function PolygonInfoPanel(props: {
     }
 
     return (
-        <Box>
+        <Box className={props.className}>
             <FormControl error={error} variant="standard" style={{ display: 'flex', flexDirection: 'row' }}>
                 <Grid container spacing={1}>
                     <Grid item xs={10}>

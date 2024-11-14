@@ -10,7 +10,7 @@ import CenterFocusStrongOutlinedIcon from '@mui/icons-material/CenterFocusStrong
 import PolygonDrawer from "../../app/logics/polygondrawer";
 import { CenterFocusStrong, CenterFocusStrongOutlined } from "@mui/icons-material";
 
-export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }) {
+export default function Canvas(props: { className?: string, polygonDatas: HistoricalPolygonData[]; }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
 
@@ -88,7 +88,7 @@ export default function Canvas(props: { polygonDatas: HistoricalPolygonData[]; }
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative" }} className={props.className}>
       <canvas className="self-center h-full" id="myCanvas" ref={canvasRef}></canvas>
       <div style={{ position: "absolute", top: 0, right: 0 }}>
         <Tooltip title="放大">

@@ -12,6 +12,7 @@ import { ClassNames } from '@emotion/react';
 
 
 export default function HistoryRotationalCenters(props: {
+    className?: string;
     currentPolygonData: HistoricalPolygonData, setCurrentPolygonData: Dispatch<SetStateAction<HistoricalPolygonData>>,
     setShowCurrent: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -19,7 +20,7 @@ export default function HistoryRotationalCenters(props: {
     const dispatchPolygonDatas = useContext(PolygonDatasDispatchContext);
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} className={props.className}>
             {polygonDatas.map((polygonData, index) => (
                 <Grid item xs={6} key={index} >
                     <HistoricalPolygonConstructionDataInfo polygonData={polygonData} currentPolygonData={props.currentPolygonData}
