@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
 import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
+import NumField from "./NumField";
 
 
 export default function PolygonInfoPanel(props: {
@@ -89,9 +90,7 @@ export default function PolygonInfoPanel(props: {
                         </Grid>
                     ))}
                     <Grid item xs={3}>
-                        <TextField
-                            className="w-full"
-                            type="number"
+                        <NumField
                             label="前连杆与上连杆初始角度"
                             value={props.data.angleBetweenFirstAndLastEdge}
                             onChange={(e) => props.setData(currentData => {
@@ -102,9 +101,7 @@ export default function PolygonInfoPanel(props: {
                             })} />
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField
-                            className="w-full"
-                            type="number"
+                        <NumField
                             label="下连杆水平夹角"
                             value={props.data.edge0Angle}
                             onChange={(e) => props.setData(currentData => {
@@ -115,9 +112,7 @@ export default function PolygonInfoPanel(props: {
                             })} />
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField
-                            className="w-full"
-                            type="number"
+                        <NumField
                             label="起始角度"
                             value={props.data.startAngle}
                             onChange={(e) => props.setData(currentData => {
@@ -128,9 +123,7 @@ export default function PolygonInfoPanel(props: {
                             })} />
                     </Grid>
                     <Grid item xs={3}>
-                        <TextField
-                            className="w-full"
-                            type="number"
+                        <NumField
                             label="终止角度"
                             value={props.data.endAngle}
                             onChange={(e) => props.setData(currentData => {
